@@ -1,5 +1,4 @@
 import React from 'react';
-
 import App from 'grommet/components/App';
 import Title from 'grommet/components/Title';
 
