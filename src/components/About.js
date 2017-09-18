@@ -2,18 +2,12 @@ import React, { Component } from 'react';
 import Header from 'grommet/components/Header';
 import Title from 'grommet/components/Title';
 import Box from 'grommet/components/Box';
-import Search from 'grommet/components/Search';
 import Button from 'grommet/components/Button';
-import Hero from 'grommet/components/Hero';
-import Image from 'grommet/components/Image';
-import Tabs from 'grommet/components/Tabs';
-import Tab from 'grommet/components/Tab';
 import Section from 'grommet/components/Section';
 import Heading from 'grommet/components/Heading';
 import Paragraph from 'grommet/components/Paragraph';
-import Anchor from 'grommet/components/Anchor';
 import Edit from 'grommet/components/icons/base/Edit';
-import Headline from 'grommet/components/Headline';
+import Footer from 'grommet/components/Footer';
 import Layer from 'grommet/components/Layer';
 import Form from 'grommet/components/Form';
 import FormField from 'grommet/components/FormField';
@@ -23,14 +17,37 @@ class About extends Component {
 	constructor(props) {
 		super(props);
 
-		this.state = {name: 'Tommy Li', bio: 'dasdasdasd', location: 'Buffalo', layerOn: 0 };
-	}
-	_closeEdit() {
-		this.setState({layerOn: 0});
+		this.state = {name: 'Your Name', bio: 'Write something about yourself.', location: 'Buffalo, NY', inputName:'',
+			inputBio: '', inputLocation: '', layerOn: 0 };
 	}
 
+	// Closes the edit layer and sets the input states to empty strings
+	_closeEdit() {
+		this.setState({layerOn: 0, inputName: '', inputBio: '', inputLocation: ''});
+	}
+
+	// Opens the edit layer and initializes input states to current state
 	_openEdit() {
-		this.setState({layerOn: 1});
+		this.setState({layerOn: 1, inputName: this.state.name, inputBio: this.state.bio, inputLocation: this.state.location});
+	}
+
+	// Submits the form by setting the new state of name, location, and bio
+	_submitForm() {
+		this._closeEdit();
+		this.setState({name: this.state.inputName, bio: this.state.inputBio, location: this.state.inputLocation})
+	}
+
+	// Sets the temporary state of corresponding field
+	_handleNameChange(event) {
+		this.setState({inputName: event.target.value});
+	}
+
+	_handleBioChange(event) {
+		this.setState({inputBio: event.target.value});
+	}
+
+	_handleLocationChange(event) {
+		this.setState({inputLocation: event.target.value});
 	}
 
 	render() {
@@ -40,21 +57,24 @@ class About extends Component {
 				onClose={() => this._closeEdit()} >
 				<Box size='xlarge'
 						 full={true}>
-					<Form>
+					<Form onSubmit={() => this._submitForm()} >
 							<Header>
 								<Heading margin='medium'>
 									Edit Bio
 								</Heading>
 							</Header>
 							<FormField label ='Name'>
-								<TextInput defaultValue={this.state.name} />
+								<TextInput defaultValue={this.state.name} onDOMChange={ (e) => this._handleNameChange(e) } />
 							</FormField>
 							<FormField label ='Bio'>
-								<TextInput defaultValue={this.state.bio} />
+								<TextInput defaultValue={this.state.bio} onDOMChange={ (e) => this._handleBioChange(e) } />
 							</FormField>
 							<FormField label ='Location'>
-								<TextInput defaultValue={this.state.location} />
+								<TextInput defaultValue={this.state.location} onDOMChange={ (e) => this._handleLocationChange(e) } />
 							</FormField>
+							<Footer pad={{vertical: 'medium'}}>
+								<Button label='Submit' primary={true} onClick={ () => this._submitForm() } />
+							</Footer>
 					</Form>
 				</Box>
 			</Layer> : '';
@@ -66,8 +86,9 @@ class About extends Component {
 						justify='start'
 						direction='row'
 						responsive={false}>
-							<Anchor icon={<Edit />}
+							<Button icon={<Edit />}
 						 		label='Edit'
+								primary={true}
 							 	onClick={() => this._openEdit()} />
 					</Box>
 				</Header>
