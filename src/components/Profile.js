@@ -1,9 +1,5 @@
 import React, { Component } from 'react';
-import Header from 'grommet/components/Header';
-import Title from 'grommet/components/Title';
 import Box from 'grommet/components/Box';
-import Search from 'grommet/components/Search';
-import Button from 'grommet/components/Button';
 import Hero from 'grommet/components/Hero';
 import Image from 'grommet/components/Image';
 import Tabs from 'grommet/components/Tabs';
@@ -29,8 +25,7 @@ class Profile extends Component {
 		const imageURL = this.state.image;
 		return (
 			<Box>
-				<Hero background=
-					{<Image src={this.state.image}
+				<Hero background={<Image src={this.state.image}
 						fit='cover'
 						full={true} />} />
 				<Tabs justify='start'>
