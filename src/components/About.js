@@ -28,7 +28,7 @@ class About extends Component {
 
 	// Opens the edit layer and initializes input states to current state
 	_openEdit() {
-		this.setState({layerOn: 1, inputName: this.state.name, inputBio: this.state.bio, inputLocation: this.state.location});
+		this.setState({layerOn: 1, inputName: this.state.name, inputBio: this.state.bio, inputLocation: this.state.location, inputImage: this.props.imageURL });
 	}
 
 	// Submits the form by setting the new state of name, location, and bio
@@ -118,7 +118,7 @@ class About extends Component {
 						<Heading>
 							Bio
 						</Heading>
-						<Paragraph>
+						<Paragraph margin='none' >
 							{this.state.bio}
 						</Paragraph>
 				</Section>

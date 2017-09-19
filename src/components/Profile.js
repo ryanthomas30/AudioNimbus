@@ -26,6 +26,7 @@ class Profile extends Component {
 	}
 
 	render () {
+		const imageURL = this.state.image;
 		return (
 			<Box>
 				<Hero background=
@@ -37,7 +38,7 @@ class Profile extends Component {
 
 						</Tab>
 						<Tab title='About'>
-								<About changeImage={this._changeImage}/>
+								<About changeImage={this._changeImage} imageURL={imageURL}/>
 						</Tab>
 				</Tabs>
 			</Box>
