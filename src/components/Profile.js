@@ -10,13 +10,26 @@ import Tabs from 'grommet/components/Tabs';
 import Tab from 'grommet/components/Tab';
 import About from './About';
 
-class Profile extends Component{
+class Profile extends Component {
+
+	constructor(props) {
+		super(props);
+
+		this.state = {image: 'http://lorempixel.com/1080/1920/abstract'};
+
+		this._changeImage = this._changeImage.bind(this);
+
+	}
+
+	_changeImage(inputImage) {
+		this.setState({ image: inputImage });
+	}
 
 	render () {
 		return (
 			<Box>
 				<Hero background=
-					{<Image src='http://lorempixel.com/1080/1920/abstract'
+					{<Image src={this.state.image}
 						fit='cover'
 						full={true} />} />
 				<Tabs justify='start'>
@@ -24,7 +37,7 @@ class Profile extends Component{
 
 						</Tab>
 						<Tab title='About'>
-								<About/>
+								<About changeImage={this._changeImage}/>
 						</Tab>
 				</Tabs>
 			</Box>

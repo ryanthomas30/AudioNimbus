@@ -18,12 +18,12 @@ class About extends Component {
 		super(props);
 
 		this.state = {name: 'Your Name', bio: 'Write something about yourself.', location: 'Buffalo, NY', inputName:'',
-			inputBio: '', inputLocation: '', layerOn: 0 };
+			inputBio: '', inputLocation: '', inputImage: '', layerOn: 0 };
 	}
 
 	// Closes the edit layer and sets the input states to empty strings
 	_closeEdit() {
-		this.setState({layerOn: 0, inputName: '', inputBio: '', inputLocation: ''});
+		this.setState({layerOn: 0, inputName: '', inputBio: '', inputLocation: '', inputImage: ''});
 	}
 
 	// Opens the edit layer and initializes input states to current state
@@ -34,7 +34,9 @@ class About extends Component {
 	// Submits the form by setting the new state of name, location, and bio
 	_submitForm() {
 		this._closeEdit();
-		this.setState({name: this.state.inputName, bio: this.state.inputBio, location: this.state.inputLocation})
+		this.setState({name: this.state.inputName, bio: this.state.inputBio, location: this.state.inputLocation});
+		let { changeImage } = this.props;
+		changeImage(this.state.inputImage);
 	}
 
 	// Sets the temporary state of corresponding field
@@ -50,6 +52,15 @@ class About extends Component {
 		this.setState({inputLocation: event.target.value});
 	}
 
+	_handleImageChange(event) {
+		let reader = new FileReader();
+		let file = event.target.files[0];
+		reader.onloadend = () => {
+			this.setState({ inputImage: reader.result });
+		}
+		reader.readAsDataURL(file);
+	}
+
 	render() {
 		const editLayer = this.state.layerOn === 1 ?
 			<Layer closer={true}
@@ -63,14 +74,17 @@ class About extends Component {
 									Edit Bio
 								</Heading>
 							</Header>
-							<FormField label ='Name'>
+							<FormField label='Name'>
 								<TextInput defaultValue={this.state.name} onDOMChange={ (e) => this._handleNameChange(e) } />
 							</FormField>
-							<FormField label ='Bio'>
+							<FormField label='Bio'>
 								<TextInput defaultValue={this.state.bio} onDOMChange={ (e) => this._handleBioChange(e) } />
 							</FormField>
-							<FormField label ='Location'>
+							<FormField label='Location'>
 								<TextInput defaultValue={this.state.location} onDOMChange={ (e) => this._handleLocationChange(e) } />
+							</FormField>
+							<FormField label='Upload Profile Image'>
+								<input type="file" accept="image" onChange={ (e) => this._handleImageChange(e) }/>
 							</FormField>
 							<Footer pad={{vertical: 'medium'}}>
 								<Button label='Submit' primary={true} onClick={ () => this._submitForm() } />
