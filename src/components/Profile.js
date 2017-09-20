@@ -27,7 +27,8 @@ class Profile extends Component {
 			<Box>
 				<Hero background={<Image src={this.state.image}
 						fit='cover'
-						full={true} />} />
+						full={true} />}
+						size='medium' />
 				<Tabs justify='start'>
 						<Tab title='Tracks'>
 
