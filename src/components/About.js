@@ -102,7 +102,7 @@ class About extends Component {
 						responsive={false}>
 							<Button icon={<Edit />}
 						 		label='Edit'
-								primary={true}
+								primary={false}
 							 	onClick={() => this._openEdit()} />
 					</Box>
 				</Header>

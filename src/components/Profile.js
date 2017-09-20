@@ -5,6 +5,7 @@ import Image from 'grommet/components/Image';
 import Tabs from 'grommet/components/Tabs';
 import Tab from 'grommet/components/Tab';
 import About from './About';
+import Tracks from './Tracks';
 
 class Profile extends Component {
 
@@ -26,16 +27,15 @@ class Profile extends Component {
 		return (
 			<Box>
 				<Hero background={<Image src={this.state.image}
-						fit='cover'
-						full={true} />}
-						size='medium' />
+					fit='cover'
+					full={true} />}
+					size='medium' />
 				<Tabs justify='start'>
-						<Tab title='Tracks'>
-
-						</Tab>
-						<Tab title='About'>
-								<About changeImage={this._changeImage} imageURL={imageURL}/>
-						</Tab>
+					<Tab title='Tracks'>
+					</Tab>
+					<Tab title='About'>
+						<About changeImage={this._changeImage} imageURL={imageURL}/>
+					</Tab>
 				</Tabs>
 			</Box>
 		);
