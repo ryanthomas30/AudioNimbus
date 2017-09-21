@@ -12,7 +12,7 @@ class Profile extends Component {
 	constructor(props) {
 		super(props);
 
-		this.state = {image: 'http://lorempixel.com/1080/1920/abstract'};
+		this.state = {image: 'http://lorempixel.com/1920/1080/abstract'};
 
 		this._changeImage = this._changeImage.bind(this);
 
@@ -29,7 +29,7 @@ class Profile extends Component {
 				<Hero background={<Image src={this.state.image}
 					fit='cover'
 					full={true} />}
-					size='medium' />
+					size='small' />
 				<Tabs justify='start'>
 					<Tab title='Tracks'>
 					</Tab>

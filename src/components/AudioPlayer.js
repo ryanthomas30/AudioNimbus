@@ -6,9 +6,9 @@ class AudioPlayer extends Component {
 		const audioFile = './A1.mp3';
 		const song = {
 			name: 'Hello World', // song name
-	  	src: audioFile, // song source address
-	  	img: 'http://lorempixel.com/1080/1920/abstract' // (optional) song image source address
-	  	//comments: an commentObj array // (optional) comments to display of that song
+			src: audioFile, // song source address
+		img: 'http://lorempixel.com/1920/1080/abstract' // (optional) song image source address
+		//comments: an commentObj array // (optional) comments to display of that song
 		}
 		const playList=[song];
 		return(
