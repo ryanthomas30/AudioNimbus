@@ -17,7 +17,7 @@ class About extends Component {
 	constructor(props) {
 		super(props);
 
-		this.state = {name: 'Your Name', bio: 'Write something about yourself.', location: 'Buffalo, NY', inputName:'',
+		this.state = { name: 'Your Name', bio: 'Write something about yourself.', location: 'Buffalo, NY', inputName:'',
 			inputBio: '', inputLocation: '', inputImage: '', layerOn: 0 };
 	}
 
@@ -62,7 +62,8 @@ class About extends Component {
 	}
 
 	render() {
-		const editLayer = this.state.layerOn === 1 ?
+		const { name, bio, location, inputName, inputBio, inputLocation, inputImage, layerOn } = this.state;
+		const editLayer = layerOn === 1 ?
 			<Layer closer={true}
 				align='center'
 				onClose={() => this._closeEdit()} >
@@ -75,16 +76,16 @@ class About extends Component {
 								</Heading>
 							</Header>
 							<FormField label='Name'>
-								<TextInput defaultValue={this.state.name} onDOMChange={ (e) => this._handleNameChange(e) } />
+								<TextInput defaultValue={name} onDOMChange={ (e) => this._handleNameChange(e) } />
 							</FormField>
 							<FormField label='Bio'>
-								<TextInput defaultValue={this.state.bio} onDOMChange={ (e) => this._handleBioChange(e) } />
+								<TextInput defaultValue={bio} onDOMChange={ (e) => this._handleBioChange(e) } />
 							</FormField>
 							<FormField label='Location'>
-								<TextInput defaultValue={this.state.location} onDOMChange={ (e) => this._handleLocationChange(e) } />
+								<TextInput defaultValue={location} onDOMChange={ (e) => this._handleLocationChange(e) } />
 							</FormField>
 							<FormField label='Upload Profile Image'>
-								<input type="file" accept="image" onChange={ (e) => this._handleImageChange(e) }/>
+								<input type="file" accept="image/*" onChange={ (e) => this._handleImageChange(e) }/>
 							</FormField>
 							<Footer pad={{vertical: 'medium'}}>
 								<Button label='Submit' primary={true} onClick={ () => this._submitForm() } />
@@ -102,7 +103,7 @@ class About extends Component {
 						responsive={false}>
 							<Button icon={<Edit />}
 						 		label='Edit'
-								primary={false}
+								primary={true}
 							 	onClick={() => this._openEdit()} />
 					</Box>
 				</Header>
@@ -111,7 +112,7 @@ class About extends Component {
 							Name
 						</Heading>
 						<Title>
-							{this.state.name}
+							{name}
 						</Title>
 				</Section>
 				<Section>
@@ -119,7 +120,7 @@ class About extends Component {
 							Bio
 						</Heading>
 						<Paragraph margin='none' >
-							{this.state.bio}
+							{bio}
 						</Paragraph>
 				</Section>
 				<Section>
@@ -127,7 +128,7 @@ class About extends Component {
 						Location
 					</Heading>
 					<Title>
-						{this.state.location}
+						{location}
 					</Title>
 				</Section>
 			</Box>

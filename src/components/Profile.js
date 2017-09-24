@@ -32,6 +32,7 @@ class Profile extends Component {
 					size='small' />
 				<Tabs justify='start'>
 					<Tab title='Tracks'>
+						<Tracks />
 					</Tab>
 					<Tab title='About'>
 						<About changeImage={this._changeImage} imageURL={imageURL}/>

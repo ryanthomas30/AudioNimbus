@@ -3,19 +3,19 @@ import Audio from 'react-audioplayer';
 
 class AudioPlayer extends Component {
 	render() {
-		const audioFile = './A1.mp3';
-		const song = {
-			name: 'Hello World', // song name
-			src: audioFile, // song source address
-		img: 'http://lorempixel.com/1920/1080/abstract' // (optional) song image source address
-		//comments: an commentObj array // (optional) comments to display of that song
+		const { song } = this.props;
+		const imgFile = song.image ? song.image : 'http://lorempixel.com/500/500/abstract';
+		const songObj = {
+			name: song.name, // song name
+			src: song.audio, // song source address
+			img: imgFile // (optional) song image source address
 		}
-		const playList=[song];
+		const playList=[songObj];
 		return(
 			<Audio
-				width={500}
+				width={1100}
 				fullPlayer={true}
-				color="#00BFA5"
+				color="#865cd6"
 				playlist={playList}
 				style={{
 					boxShadow: '0px 2px 6px rgba(0, 0, 0, 0.28)',

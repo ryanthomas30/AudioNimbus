@@ -7,33 +7,105 @@ import Section from 'grommet/components/Section';
 import Heading from 'grommet/components/Heading';
 import Paragraph from 'grommet/components/Paragraph';
 import Edit from 'grommet/components/icons/base/Edit';
+import Add from 'grommet/components/icons/base/Add';
 import Footer from 'grommet/components/Footer';
 import Layer from 'grommet/components/Layer';
+import Label from 'grommet/components/Label';
 import Form from 'grommet/components/Form';
 import FormField from 'grommet/components/FormField';
 import TextInput from 'grommet/components/TextInput';
-import Audio from 'react-audioplayer';
+import AudioPlayer from './AudioPlayer';
 
 class Tracks extends Component {
-	render() {
-	  const audioFile = './A1.mp3';
-		const song = {
-			name: 'Hello World', // song name
-	  	src: audioFile, // song source address
-	  	img: 'http://lorempixel.com/1080/1920/abstract' // (optional) song image source address
-	  	//comments: an commentObj array // (optional) comments to display of that song
+	constructor(props) {
+		super(props);
+
+		this.state = { songs: [], songObj: { name: '', image: '', audio: '' }, layerOn: false };
+	}
+
+	_closeUpload() {
+		this.setState({ layerOn: false, songObj: { name: '', image: '', audio: '' }});
+	}
+
+	_openUpload() {
+		this.setState({ layerOn: true });
+	}
+
+	_handleNameChange(event) {
+		this.setState({ songObj: { name: event.target.value, image: this.state.songObj.image, audio: this.state.songObj.audio }});
+	}
+
+	_handleImageChange(event) {
+		let reader = new FileReader();
+		let file = event.target.files[0];
+		reader.onloadend = () => {
+			this.setState({ songObj:{name: this.state.songObj.name, image: reader.result, audio: this.state.songObj.audio }});
 		}
-		const playList=[song];
+		reader.readAsDataURL(file);
+	}
+
+	_handleAudioChange(event) {
+		let reader = new FileReader();
+		let file = event.target.files[0];
+		reader.onloadend = () => {
+			this.setState({ songObj: { name: this.state.songObj.name, image: this.state.songObj.image, audio: reader.result }});
+		}
+		reader.readAsDataURL(file);
+	}
+
+	_submitForm() {
+		this._closeUpload();
+		this.state.songs.push(this.state.songObj);
+	}
+
+	render() {
+		const { songs, layerOn } = this.state;
+		const addLayer = layerOn ?
+			<Layer closer={true}
+				align='center'
+				onClose={() => this._closeUpload()} >
+				<Box size='xlarge'
+						 full={true}>
+					<Form onSubmit={() => this._submitForm()} >
+							<Header>
+								<Heading margin='medium'>
+									Upload Track
+								</Heading>
+							</Header>
+							<FormField label='Track Name'>
+								<TextInput defaultValue={name} onDOMChange={ (e) => this._handleNameChange(e) } />
+							</FormField>
+							<FormField label='Upload Track Image'>
+								<input type="file" accept="image/*" onChange={ (e) => this._handleImageChange(e) }/>
+							</FormField>
+							<FormField label='Upload Track'>
+								<input type="file" accept="audio/*" onChange={ (e) => this._handleAudioChange(e) }/>
+							</FormField>
+							<Footer pad={{vertical: 'medium'}}>
+								<Button label='Submit' primary={true} onClick={ () => this._submitForm() } />
+							</Footer>
+					</Form>
+				</Box>
+			</Layer> : '';
+		const trackList = songs[0] ?
+			songs.map(song => {
+				return(
+					<AudioPlayer song={song} />
+				);
+			}) : (
+				<Label>
+					You have no songs.
+				</Label>
+			);
 		return(
-				<Audio
-					width={500}
-					fullPlayer={true}
-					color="#00BFA5"
-					playlist={playList}
-					style={{
-						boxShadow: '0px 2px 6px rgba(0, 0, 0, 0.28)'
-					}}
-				/>
+			<Box justify='center' align='center' pad={{ between: 'large' }} margin='medium' >
+				{addLayer}
+				<Button icon={<Add />}
+					primary={true}
+					label='Add Track'
+					onClick={() => this._openUpload()} />
+				{trackList}
+			</Box>
 		);
 	}
 }
