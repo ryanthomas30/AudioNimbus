@@ -2,7 +2,8 @@ import React, {Component} from 'react';
 import App from 'grommet/components/App';
 import HeaderBar from './components/HeaderBar';
 import Article from 'grommet/components/Article';
-import Profile from './components/Profile'
+import Profile from './components/Profile';
+import AudioPlayer from './components/AudioPlayer';
 
 class Main extends Component {
 	render() {
@@ -12,7 +13,7 @@ class Main extends Component {
 					<HeaderBar/>
 					<Profile />
 				</Article>
-	  	</App>
+			</App>
 		);
 	}
 }
