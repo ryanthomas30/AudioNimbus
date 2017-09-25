@@ -1,3 +1,5 @@
+Bootstrapped with create-react-app
+
 ## AudioNimbus
 
 AudioNimbus is an audio distribution web application for uploading music, podcasts, and other audio, enabling users to share their original audio content.
