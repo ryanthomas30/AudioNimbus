@@ -2,7 +2,6 @@ import React, {Component} from 'react';
 import App from 'grommet/components/App';
 import HeaderBar from './components/HeaderBar';
 import Article from 'grommet/components/Article';
-import Profile from './components/Profile';
 import AudioPlayer from './components/AudioPlayer';
 
 class Main extends Component {
@@ -11,7 +10,7 @@ class Main extends Component {
 			<App>
 				<Article>
 					<HeaderBar/>
-					<Profile />
+					{this.props.children}
 				</Article>
 			</App>
 		);
