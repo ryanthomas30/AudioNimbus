@@ -18,17 +18,17 @@ class About extends Component {
 		super(props);
 
 		this.state = { name: 'Your Name', bio: 'Write something about yourself.', location: 'Buffalo, NY', inputName:'',
-			inputBio: '', inputLocation: '', inputImage: '', layerOn: 0 };
+			inputBio: '', inputLocation: '', inputImage: '', layerOn: true };
 	}
 
 	// Closes the edit layer and sets the input states to empty strings
 	_closeEdit() {
-		this.setState({layerOn: 0, inputName: '', inputBio: '', inputLocation: '', inputImage: ''});
+		this.setState({layerOn: false, inputName: '', inputBio: '', inputLocation: '', inputImage: ''});
 	}
 
 	// Opens the edit layer and initializes input states to current state
 	_openEdit() {
-		this.setState({layerOn: 1, inputName: this.state.name, inputBio: this.state.bio, inputLocation: this.state.location, inputImage: this.props.imageURL });
+		this.setState({layerOn: true, inputName: this.state.name, inputBio: this.state.bio, inputLocation: this.state.location, inputImage: this.props.imageURL });
 	}
 
 	// Submits the form by setting the new state of name, location, and bio
@@ -63,7 +63,7 @@ class About extends Component {
 
 	render() {
 		const { name, bio, location, inputName, inputBio, inputLocation, inputImage, layerOn } = this.state;
-		const editLayer = layerOn === 1 ?
+		const editLayer = layerOn === true ?
 			<Layer closer={true}
 				align='center'
 				onClose={() => this._closeEdit()} >
