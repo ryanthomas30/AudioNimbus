@@ -3,6 +3,8 @@ import App from 'grommet/components/App';
 import HeaderBar from './components/HeaderBar';
 import Article from 'grommet/components/Article';
 import AudioPlayer from './components/AudioPlayer';
+import Profile from './components/Profile';
+import { Route } from 'react-router-dom';
 
 class Main extends Component {
 	render() {
@@ -10,7 +12,7 @@ class Main extends Component {
 			<App>
 				<Article>
 					<HeaderBar/>
-					{this.props.children}
+					<Route exact path="/profile" component={Profile} />
 				</Article>
 			</App>
 		);
