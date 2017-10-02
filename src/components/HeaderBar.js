@@ -7,6 +7,7 @@ import Label from 'grommet/components/Label';
 import Search from 'grommet/components/Search';
 import Image from 'grommet/components/Image';
 import Signin from './auth/signin';
+import Signup from './auth/signup';
 import * as actions from '../actions';
 import { connect } from 'react-redux';
 
@@ -18,6 +19,7 @@ class HeaderBar extends Component {
 		this.state = { signInOn: false, signUpOn: false, signOutOn: false };
 
 		this._closeSignIn = this._closeSignIn.bind(this);
+		this._closeSignUp = this._closeSignUp.bind(this);
 	}
 
 	_openSignIn() {
@@ -64,8 +66,8 @@ class HeaderBar extends Component {
 			<Layer closer={true}
 				align='center'
 				onClose={() => this._closeSignUp()} >
-				<Box size='xlarge' full={true}>
-					Sign Up
+				<Box size={{ width: 'large', height: 'large' }} full={false}>
+					<Signup closeSignUp={this._closeSignUp} />
 				</Box>
 			</Layer>
 		) : '';
