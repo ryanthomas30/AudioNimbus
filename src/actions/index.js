@@ -4,22 +4,24 @@ import { AUTH_USER, UNAUTH_USER, AUTH_ERROR, FETCH_MESSAGE } from './types';
 
 const ROOT_URL = 'http://localhost:3090';
 
-export function signinUser({ email, password }) {
+export function signinUser({ email, password }, callback) {
 	return function(dispatch) {
 		// Submit email/password to the server
 		axios.post(`${ROOT_URL}/signin`, { email, password })
 			.then(response => {
+				callback(true);
 				// If request is good...
 				// - Update state tp indicate user is authenticated
 				dispatch({ type: AUTH_USER });
 				// - Save the JWT token
 				localStorage.setItem('token', response.data.token);
 				// - Redirect to the route '/feature'
-				browserHistory.push('/feature');
+				//browserHistory.push('/feature');
 			})
 			.catch(() => {
 				//If request is bad...
 				// - Show an error to te user
+				callback(false);
 				dispatch(authError('Bad Login Info'));
 			});
 	}

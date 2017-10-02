@@ -15,9 +15,9 @@ const renderField = ({ input, label, type, meta: { touched, error, warning } }) 
 class Signup extends Component {
 
 	handleFormSubmit({ email, password }) {
-    // Call action creator to sign up the user
-    this.props.signupUser({ email, password })
-  }
+		// Call action creator to sign up the user
+		this.props.signupUser({ email, password });
+	}
 
   renderAlert() {
 	  if (this.props.errorMessage) {
