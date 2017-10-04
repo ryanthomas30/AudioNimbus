@@ -9,24 +9,18 @@ import Heading from 'grommet/components/Heading';
 import Header from 'grommet/components/Header';
 import Footer from 'grommet/components/Footer';
 
-// Hoisted up not to render each time from scratch in the component (which would result in losing focus)
-const renderField = ({ input, label, type, meta: { touched, error, warning } }) => (
-  <FormField>
-    <label htmlFor={input.name}>{label}</label>
-    <TextInput {...input} type={type}/>
-    { touched && error && <span>{error}</span> }
- </FormField>
-)
 
 class Signup extends Component {
 	constructor(props) {
 		super(props);
 
-		this.state = { inputEmail: '', inputPassword: '', inputConfirmPassword: '' };
+		this.state = { inputEmail: '', inputPassword: '', inputConfirmPassword: '',
+			inputErrors: { email: '', password: '', passwordConfirm: '' } };
 
 		this._handleFormSubmit = this._handleFormSubmit.bind(this);
 	}
 
+	// Calls action creator if there are no errors
 	_handleFormSubmit() {
 		// If there are errors, do not Submit
 		let errors = this._validate();
@@ -37,48 +31,59 @@ class Signup extends Component {
 		let email = this.state.inputEmail;
 		let password = this.state.inputPassword;
 		this.props.signupUser({ email, password });
-		this.setState({ inputEmail: '', inputPassword: '', inputConfirmPassword: '' })
+		this.setState({ inputEmail: '', inputPassword: '', inputConfirmPassword: '',
+			inputErrors: { email: '', password: '', passwordConfirm: '' } });
 	}
 
-	// Sets the temporary state of corresponding field
+	// Sets the temporary state of email
 	_handleEmailChange(event) {
 		this.setState({inputEmail: event.target.value});
 	}
 
+	// Sets the temporary state of password
 	_handlePassChange(event) {
 		this.setState({inputPassword: event.target.value});
 	}
 
+	// Sets the temporary state of password confirmation
 	_handleConfirmPassChange(event) {
 		this.setState({inputConfirmPassword: event.target.value});
 	}
 
 	_validate() {
 	  let errors = {}
+	// Checks if any fields are empty and if passwords match
 
 		if (!this.state.inputEmail) {
-			errors.email = 'Please enter an email'
+			errors.email = 'Please enter an email';
+		}
+
+		if (this.state.inputPassword !== this.state.inputConfirmPassword) {
+			errors.password = 'Passwords must match';
 		}
 
 		if (!this.state.inputPassword) {
-			errors.password = 'Please enter a password'
+			errors.password = 'Please enter a password';
 		}
 
 		if (!this.state.inputConfirmPassword) {
-			errors.passwordConfirm = 'Please enter a password confirmation'
+			errors.passwordConfirm = 'Field cannot be empty';
 		}
 
-	  if (this.state.inputPassword !== this.state.inputConfirmPassword) {
-	    errors.password = 'Passwords must match'
-	  }
-
 	  return errors
+		this.setState({
+			inputErrors: {
+				email: errors.email,
+				password: errors.password,
+				passwordConfirm: errors.passwordConfirm
+			}
+		});
 	}
 
 
-  renderAlert() {
-	  if (this.props.errorMessage) {
-		  return (
+	renderAlert() {
+		if (this.props.errorMessage) {
+			return (
 			  <div className='alert alert-danger'>
 				  <strong>Oops!</strong> {this.props.errorMessage}
 			  </div>
@@ -87,6 +92,7 @@ class Signup extends Component {
   }
 
 	render() {
+		const { email, password, passwordConfirm } = this.state.inputErrors;
 		return (
 			<Form onSubmit={() => this._handleFormSubmit()}>
 				<Header>
@@ -94,13 +100,13 @@ class Signup extends Component {
 						Create An Account
 					</Heading>
 				</Header>
-				<FormField label='Email' >
+				<FormField label='Email' error={email} >
 					<TextInput onDOMChange={(e) => this._handleEmailChange(e)} />
 				</FormField>
-				<FormField label='Password' >
+				<FormField label='Password' error={password} >
 					<TextInput onDOMChange={(e) => this._handlePassChange(e)} />
 				</FormField>
-				<FormField label='Confirm Password' >
+				<FormField label='Confirm Password' error={passwordConfirm} >
 					<TextInput onDOMChange={(e) => this._handleConfirmPassChange(e)} />
 				</FormField>
 				{this.renderAlert()}
