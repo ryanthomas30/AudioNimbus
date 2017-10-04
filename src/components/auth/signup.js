@@ -1,4 +1,5 @@
 import React, {Component} from 'react';
+import { withRouter } from 'react-router-dom';
 import { connect } from 'react-redux';
 import * as actions from '../../actions';
 import Form from 'grommet/components/Form';
@@ -33,6 +34,7 @@ class Signup extends Component {
 		this.props.signupUser({ email, password }, (b) => {
 			if (b) {
 				this.props.closeSignUp();
+				this.props.history.push('/profile');
 				this.setState({ inputEmail: '', inputPassword: '', inputConfirmPassword: '',
 					inputErrors: { email: '', password: '', passwordConfirm: '' } });
 			}
@@ -128,4 +130,4 @@ function mapStateToProps(state) {
 	};
 }
 
-export default connect(mapStateToProps, actions)(Signup);
+export default connect(mapStateToProps, actions)(withRouter(Signup));

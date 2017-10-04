@@ -38,8 +38,8 @@ export function signupUser({ email, password }, callback) {
 				dispatch({ type: AUTH_USER, payload: response.data.id });
 				// - Save the JWT token
 				localStorage.setItem('token', response.data.token);
-				// - Redirect to the route '/feature'
-				browserHistory.push('/feature');
+				// - Redirect to the route '/profile'
+				browserHistory.push('/profile');
 			})
 			.catch(error => {
 				// If request is bad...
@@ -57,9 +57,10 @@ export function authError(error) {
 	};
 }
 
-export function signoutUser() {
+export function signoutUser(callback) {
 	localStorage.removeItem('token');
-
+	// Pushes user back to '/'
+	callback();
 	return { type: UNAUTH_USER };
 }
 

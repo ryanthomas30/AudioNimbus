@@ -1,4 +1,5 @@
 import React, {Component} from 'react';
+import { withRouter } from 'react-router-dom';
 import { connect } from 'react-redux';
 import * as actions from '../../actions';
 import LoginForm from 'grommet/components/LoginForm';
@@ -18,6 +19,7 @@ class Signin extends Component {
 		this.props.signinUser({ email, password }, (b) => {
 			if (b) {
 				this.props.closeSignIn();
+				this.props.history.push('/profile');
 			}
 		});
 	}
@@ -52,4 +54,4 @@ function mapStateToProps(state) {
 	};
 }
 
-export default connect(mapStateToProps, actions)(Signin);
+export default connect(mapStateToProps, actions)(withRouter(Signin));

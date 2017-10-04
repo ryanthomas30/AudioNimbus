@@ -1,4 +1,5 @@
 import React, { Component } from 'react';
+import { withRouter } from 'react-router-dom';
 import Header from 'grommet/components/Header';
 import Box from 'grommet/components/Box';
 import Button from 'grommet/components/Button';
@@ -47,7 +48,9 @@ class HeaderBar extends Component {
 	}
 
 	_confirmSignOut() {
-		this.props.signoutUser();
+		this.props.signoutUser(() => {
+			this.props.history.push('/');
+		});
 		this._closeSignOut();
 	}
 
@@ -125,4 +128,4 @@ function mapStateToProps(state) {
 	};
 }
 
-export default connect(mapStateToProps, actions)(HeaderBar);
+export default connect(mapStateToProps, actions)(withRouter(HeaderBar));
