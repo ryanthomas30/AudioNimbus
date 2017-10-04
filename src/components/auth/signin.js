@@ -3,7 +3,6 @@ import { connect } from 'react-redux';
 import * as actions from '../../actions';
 import LoginForm from 'grommet/components/LoginForm';
 import Box from 'grommet/components/Box';
-import Notification from 'grommet/components/Notification';
 
 class Signin extends Component {
 	constructor(props) {
@@ -47,7 +46,10 @@ class Signin extends Component {
 }
 
 function mapStateToProps(state) {
-	return { errorMessage: state.auth.error };
+	return {
+		errorMessage: state.auth.error,
+		userID: state.auth.userID
+	};
 }
 
 export default connect(mapStateToProps, actions)(Signin);

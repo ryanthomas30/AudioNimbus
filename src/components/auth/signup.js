@@ -24,15 +24,19 @@ class Signup extends Component {
 	_handleFormSubmit() {
 		// If there are errors, do not Submit
 		let errors = this._validate();
-		if(!errors.email || !errors.password || !errors.passwordConfirm) {
+		if(errors.email || errors.password || errors.passwordConfirm) {
 			return;
 		}
 		// Call action creator to sign up the user
 		let email = this.state.inputEmail;
 		let password = this.state.inputPassword;
-		this.props.signupUser({ email, password });
-		this.setState({ inputEmail: '', inputPassword: '', inputConfirmPassword: '',
-			inputErrors: { email: '', password: '', passwordConfirm: '' } });
+		this.props.signupUser({ email, password }, (b) => {
+			if (b) {
+				this.props.closeSignUp();
+				this.setState({ inputEmail: '', inputPassword: '', inputConfirmPassword: '',
+					inputErrors: { email: '', password: '', passwordConfirm: '' } });
+			}
+		});
 	}
 
 	// Sets the temporary state of email
@@ -70,7 +74,6 @@ class Signup extends Component {
 			errors.passwordConfirm = 'Field cannot be empty';
 		}
 
-	  return errors
 		this.setState({
 			inputErrors: {
 				email: errors.email,
@@ -78,13 +81,14 @@ class Signup extends Component {
 				passwordConfirm: errors.passwordConfirm
 			}
 		});
+		return errors;
 	}
 
 
 	renderAlert() {
 		if (this.props.errorMessage) {
 			return (
-			  <div className='alert alert-danger'>
+			  <div>
 				  <strong>Oops!</strong> {this.props.errorMessage}
 			  </div>
 		  );
@@ -119,9 +123,9 @@ class Signup extends Component {
 }
 
 function mapStateToProps(state) {
-  return {
-    errorMessage: state.auth.error
- };
+	return {
+		errorMessage: state.auth.error
+	};
 }
 
 export default connect(mapStateToProps, actions)(Signup);

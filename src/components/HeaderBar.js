@@ -78,18 +78,18 @@ class HeaderBar extends Component {
 				<Box size={{ height: 'small', width: 'medium' }} full={false} justify='center' align='center' >
 					<Label>Are you sure you want to log out?</Label>
 					<Box direction='row' pad={{ between: 'medium' }} >
-						<Button label='Yes' primary='true' onClick={() => this._confirmSignOut()} />
+						<Button label='Yes' primary={true} onClick={() => this._confirmSignOut()} />
 						<Button label='Cancel' onClick={() => this._closeSignOut()} />
 					</Box>
 				</Box>
 			</Layer>
 		) : '';
 		const buttons = this.props.authenticated ? [
-			<Button label='Upload Track' primary='true' />,
-			<Button label='Log Out' onClick={() => this._openSignOut()} />
+			<Button label='Upload Track' primary={true} key={1} />,
+			<Button label='Log Out' onClick={() => this._openSignOut()} key={2} />
 		] : [
-			<Button label='Log In' primary='true' onClick={() => this._openSignIn()} />,
-			<Button label='Sign Up' onClick={() => this._openSignUp()} />
+			<Button label='Log In' primary={true} onClick={() => this._openSignIn()} key={1} />,
+			<Button label='Sign Up' onClick={() => this._openSignUp()} key={2} />
 		];
 		return(
 			<Header splash={false} float={false} >
@@ -102,14 +102,16 @@ class HeaderBar extends Component {
 					direction='row'
 					responsive={false}
 					pad={{ between: 'small' }} >
-					<Search inline={true}
-						fill={true}
-						size='medium'
-						placeHolder='search'
-						dropAlign={{"right": "right"}} />
-						<Box direction='row' pad={{ between: 'small' }} margin='small' >
-							{buttons}
-						</Box>
+					<Box margin='small' size={{ width: 'medium' }} >
+						<Search inline={true}
+							fill={true}
+							size='medium'
+							placeHolder='search'
+							dropAlign={{"right": "right"}} />
+					</Box>
+					<Box direction='row' pad={{between: 'small' }} margin='small' >
+						{buttons}
+					</Box>
 				</Box>
 			</Header>
 		);
@@ -118,7 +120,8 @@ class HeaderBar extends Component {
 
 function mapStateToProps(state) {
 	return {
-	authenticated: state.auth.authenticated
+		authenticated: state.auth.authenticated,
+		userID: state.auth.userID
 	};
 }
 
