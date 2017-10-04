@@ -1,28 +1,96 @@
 import React, {Component} from 'react';
+import { withRouter } from 'react-router-dom';
 import { connect } from 'react-redux';
-import { Field, reduxForm } from 'redux-form';
 import * as actions from '../../actions';
+import Form from 'grommet/components/Form';
+import FormField from 'grommet/components/FormField';
+import TextInput from 'grommet/components/TextInput';
+import Button from 'grommet/components/Button';
+import Heading from 'grommet/components/Heading';
+import Header from 'grommet/components/Header';
+import Footer from 'grommet/components/Footer';
 
-// Hoisted up not to render each time from scratch in the component (which would result in losing focus)
-const renderField = ({ input, label, type, meta: { touched, error, warning } }) => (
-  <fieldset className="form-group">
-    <label htmlFor={input.name}>{label}</label>
-    <input className="form-control" {...input} type={type}/>
-    { touched && error && <span className="text-danger">{error}</span> }
-  </fieldset>
-)
 
 class Signup extends Component {
+	constructor(props) {
+		super(props);
 
-	handleFormSubmit({ email, password }) {
-    // Call action creator to sign up the user
-    this.props.signupUser({ email, password })
-  }
+		this.state = { inputEmail: '', inputPassword: '', inputConfirmPassword: '',
+			inputErrors: { email: '', password: '', passwordConfirm: '' } };
 
-  renderAlert() {
-	  if (this.props.errorMessage) {
-		  return (
-			  <div className='alert alert-danger'>
+		this._handleFormSubmit = this._handleFormSubmit.bind(this);
+	}
+
+	// Calls action creator if there are no errors
+	_handleFormSubmit() {
+		// If there are errors, do not Submit
+		let errors = this._validate();
+		if(errors.email || errors.password || errors.passwordConfirm) {
+			return;
+		}
+		// Call action creator to sign up the user
+		let email = this.state.inputEmail;
+		let password = this.state.inputPassword;
+		this.props.signupUser({ email, password }, (b) => {
+			if (b) {
+				this.props.closeSignUp();
+				this.props.history.push('/profile');
+				this.setState({ inputEmail: '', inputPassword: '', inputConfirmPassword: '',
+					inputErrors: { email: '', password: '', passwordConfirm: '' } });
+			}
+		});
+	}
+
+	// Sets the temporary state of email
+	_handleEmailChange(event) {
+		this.setState({inputEmail: event.target.value});
+	}
+
+	// Sets the temporary state of password
+	_handlePassChange(event) {
+		this.setState({inputPassword: event.target.value});
+	}
+
+	// Sets the temporary state of password confirmation
+	_handleConfirmPassChange(event) {
+		this.setState({inputConfirmPassword: event.target.value});
+	}
+
+	_validate() {
+	  let errors = {}
+	// Checks if any fields are empty and if passwords match
+
+		if (!this.state.inputEmail) {
+			errors.email = 'Please enter an email';
+		}
+
+		if (this.state.inputPassword !== this.state.inputConfirmPassword) {
+			errors.password = 'Passwords must match';
+		}
+
+		if (!this.state.inputPassword) {
+			errors.password = 'Please enter a password';
+		}
+
+		if (!this.state.inputConfirmPassword) {
+			errors.passwordConfirm = 'Field cannot be empty';
+		}
+
+		this.setState({
+			inputErrors: {
+				email: errors.email,
+				password: errors.password,
+				passwordConfirm: errors.passwordConfirm
+			}
+		});
+		return errors;
+	}
+
+
+	renderAlert() {
+		if (this.props.errorMessage) {
+			return (
+			  <div>
 				  <strong>Oops!</strong> {this.props.errorMessage}
 			  </div>
 		  );
@@ -30,48 +98,36 @@ class Signup extends Component {
   }
 
 	render() {
-		const { handleSubmit } = this.props;
+		const { email, password, passwordConfirm } = this.state.inputErrors;
 		return (
-		<form onSubmit={handleSubmit(this.handleFormSubmit.bind(this))}>
-			<Field name="email" component={renderField} type="email" label="Email"/>
-			<Field name="password" component={renderField} type="password" label="Password"/>
-			<Field name="passwordConfirm" component={renderField} type="password" label="Confirm Password"/>
-			{this.renderAlert()}
-			<button type="submit" className="btn btn-primary">Sign Up</button>
-		</form>
-	);
+			<Form onSubmit={() => this._handleFormSubmit()}>
+				<Header>
+					<Heading margin='medium'>
+						Create An Account
+					</Heading>
+				</Header>
+				<FormField label='Email' error={email} >
+					<TextInput onDOMChange={(e) => this._handleEmailChange(e)} />
+				</FormField>
+				<FormField label='Password' error={password} >
+					<TextInput onDOMChange={(e) => this._handlePassChange(e)} />
+				</FormField>
+				<FormField label='Confirm Password' error={passwordConfirm} >
+					<TextInput onDOMChange={(e) => this._handleConfirmPassChange(e)} />
+				</FormField>
+				{this.renderAlert()}
+				<Footer pad={{vertical: 'medium'}}>
+					<Button label='Sign Up' primary={true} onClick={() => this._handleFormSubmit()} />
+				</Footer>
+			</Form>
+		);
 	}
-}
-
-function validate(values) {
-  let errors = {}
-
-	if (!values.email) {
-		errors.email = 'Please enter an email'
-	}
-
-	if (!values.password) {
-		errors.password = 'Please enter a password'
-	}
-
-	if (!values.passwordConfirm) {
-		errors.passwordConfirm = 'Please enter a password confirmation'
-	}
-
-  if (values.password !== values.passwordConfirm) {
-    errors.password = 'Passwords must match'
-  }
-
-  return errors
 }
 
 function mapStateToProps(state) {
-  return {
-    errorMessage: state.auth.error
- };
+	return {
+		errorMessage: state.auth.error
+	};
 }
 
-export default connect(mapStateToProps, actions)(reduxForm({
-  form:'signup',
-  validate
-})(Signup));
+export default connect(mapStateToProps, actions)(withRouter(Signup));
