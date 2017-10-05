@@ -16,10 +16,10 @@ class Signin extends Component {
 		// Need to do somethign to log user in
 		let { password } = login;
 		let email = login.username;
-		this.props.signinUser({ email, password }, (b) => {
+		this.props.signinUser({ email, password }, (b, userId) => {
 			if (b) {
 				this.props.closeSignIn();
-				this.props.history.push('/profile');
+				this.props.history.push(`/profile/${userId}`);
 			}
 		});
 	}

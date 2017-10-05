@@ -31,10 +31,10 @@ class Signup extends Component {
 		// Call action creator to sign up the user
 		let email = this.state.inputEmail;
 		let password = this.state.inputPassword;
-		this.props.signupUser({ email, password }, (b) => {
+		this.props.signupUser({ email, password }, (b, userId) => {
 			if (b) {
 				this.props.closeSignUp();
-				this.props.history.push('/profile');
+				this.props.history.push(`/profile/${userId}`);
 				this.setState({ inputEmail: '', inputPassword: '', inputConfirmPassword: '',
 					inputErrors: { email: '', password: '', passwordConfirm: '' } });
 			}

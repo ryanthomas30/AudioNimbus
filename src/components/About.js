@@ -17,26 +17,34 @@ class About extends Component {
 	constructor(props) {
 		super(props);
 
-		this.state = { name: 'Your Name', bio: 'Write something about yourself.', location: 'Buffalo, NY', inputName:'',
-			inputBio: '', inputLocation: '', inputImage: '', layerOn: true };
+		const { about } = this.props;
+		this.state = { inputName: about.name, inputBio: about.bio,
+			inputLocation: about.location, inputImage: about.image, layerOn: false };
 	}
 
-	// Closes the edit layer and sets the input states to empty strings
+	// Closes the edit layer
 	_closeEdit() {
-		this.setState({layerOn: false, inputName: '', inputBio: '', inputLocation: '', inputImage: ''});
+		this.setState({ layerOn: false });
 	}
 
-	// Opens the edit layer and initializes input states to current state
+	// Opens the edit layer and initializes input states to current redux state
 	_openEdit() {
-		this.setState({layerOn: true, inputName: this.state.name, inputBio: this.state.bio, inputLocation: this.state.location, inputImage: this.props.imageURL });
+		const { about } = this.props;
+		this.setState({layerOn: true, inputName: about.name, inputBio: about.bio,
+			inputLocation: about.location, inputImage: about.image });
 	}
 
-	// Submits the form by setting the new state of name, location, and bio
+	// Submits the form by calling action creator
 	_submitForm() {
-		this._closeEdit();
-		this.setState({name: this.state.inputName, bio: this.state.inputBio, location: this.state.inputLocation});
-		let { changeImage } = this.props;
-		changeImage(this.state.inputImage);
+		const { inputName, inputBio, inputLocation, inputImage } = this.state;
+		console.log(inputName);
+		const { updateAbout, userId, getAbout, routeId } = this.props;
+		updateAbout(userId, inputName, inputBio, inputLocation, inputImage, (success) => {
+			if (success) {
+				this._closeEdit();
+				getAbout(routeId);
+			}
+		});
 	}
 
 	// Sets the temporary state of corresponding field
@@ -62,7 +70,21 @@ class About extends Component {
 	}
 
 	render() {
-		const { name, bio, location, inputName, inputBio, inputLocation, inputImage, layerOn } = this.state;
+		const { layerOn, inputName, inputBio, inputLocation } = this.state;
+		const { renderControls, about } = this.props;
+		const renderButton = renderControls ? (
+			<Header>
+				<Box flex={true}
+					justify='start'
+					direction='row'
+					responsive={false}>
+						<Button icon={<Edit />}
+							label='Edit'
+							primary={true}
+							onClick={() => this._openEdit()} />
+				</Box>
+			</Header>
+		) : '';
 		const editLayer = layerOn === true ?
 			<Layer closer={true}
 				align='center'
@@ -76,13 +98,13 @@ class About extends Component {
 								</Heading>
 							</Header>
 							<FormField label='Name'>
-								<TextInput defaultValue={name} onDOMChange={ (e) => this._handleNameChange(e) } />
+								<TextInput defaultValue={inputName} onDOMChange={ (e) => this._handleNameChange(e) } />
 							</FormField>
 							<FormField label='Bio'>
-								<TextInput defaultValue={bio} onDOMChange={ (e) => this._handleBioChange(e) } />
+								<TextInput defaultValue={about.bio} onDOMChange={ (e) => this._handleBioChange(e) } />
 							</FormField>
 							<FormField label='Location'>
-								<TextInput defaultValue={location} onDOMChange={ (e) => this._handleLocationChange(e) } />
+								<TextInput defaultValue={about.location} onDOMChange={ (e) => this._handleLocationChange(e) } />
 							</FormField>
 							<FormField label='Upload Profile Image'>
 								<input type="file" accept="image/*" onChange={ (e) => this._handleImageChange(e) }/>
@@ -96,23 +118,13 @@ class About extends Component {
 		return(
 			<Box>
 				{editLayer}
-				<Header>
-					<Box flex={true}
-						justify='start'
-						direction='row'
-						responsive={false}>
-							<Button icon={<Edit />}
-						 		label='Edit'
-								primary={true}
-							 	onClick={() => this._openEdit()} />
-					</Box>
-				</Header>
+				{renderButton}
 				<Section>
 						<Heading>
 							Name
 						</Heading>
 						<Title>
-							{name}
+							{about.name}
 						</Title>
 				</Section>
 				<Section>
@@ -120,7 +132,7 @@ class About extends Component {
 							Bio
 						</Heading>
 						<Paragraph margin='none' >
-							{bio}
+							{about.bio}
 						</Paragraph>
 				</Section>
 				<Section>
@@ -128,7 +140,7 @@ class About extends Component {
 						Location
 					</Heading>
 					<Title>
-						{location}
+						{about.location}
 					</Title>
 				</Section>
 			</Box>

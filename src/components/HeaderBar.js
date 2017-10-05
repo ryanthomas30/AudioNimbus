@@ -49,7 +49,7 @@ class HeaderBar extends Component {
 
 	_confirmSignOut() {
 		this.props.signoutUser(() => {
-			this.props.history.push('/');
+			// this.props.history.push('/');
 		});
 		this._closeSignOut();
 	}
@@ -124,7 +124,7 @@ class HeaderBar extends Component {
 function mapStateToProps(state) {
 	return {
 		authenticated: state.auth.authenticated,
-		userID: state.auth.userID
+		userId: state.auth.userId
 	};
 }
 
