@@ -98,7 +98,7 @@ class About extends Component {
 								</Heading>
 							</Header>
 							<FormField label='Name'>
-								<TextInput defaultValue={inputName} onDOMChange={ (e) => this._handleNameChange(e) } />
+								<TextInput defaultValue={about.name} onDOMChange={ (e) => this._handleNameChange(e) } />
 							</FormField>
 							<FormField label='Bio'>
 								<TextInput defaultValue={about.bio} onDOMChange={ (e) => this._handleBioChange(e) } />

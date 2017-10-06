@@ -57,6 +57,12 @@ export function authError(error) {
 	};
 }
 
+export function clearError(error) {
+	return function(dispatch) {
+		dispatch(authError(''));
+	}
+}
+
 export function signoutUser(callback) {
 	localStorage.removeItem('token');
 	localStorage.removeItem('userid');

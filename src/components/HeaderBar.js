@@ -28,6 +28,7 @@ class HeaderBar extends Component {
 	}
 
 	_closeSignIn() {
+		this.props.clearError();
 		this.setState({ signInOn: false });
 	}
 
@@ -36,6 +37,7 @@ class HeaderBar extends Component {
 	}
 
 	_closeSignUp() {
+		this.props.clearError();
 		this.setState({ signUpOn: false });
 	}
 
