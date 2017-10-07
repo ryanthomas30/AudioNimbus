@@ -31,9 +31,13 @@ exports.signup = function(req, res, next) {
 		}
 
 		// If a user with email does NOT exist, create and save user record
+		const name = 'Enter your name';
+		const bio = 'Update your bio';
+		const location = 'Update your location';
 		const user = new User({
 			email: email,
-			password: password
+			password: password,
+			about: { name, bio, location, image: '' }
 		});
 
 		user.save(function(err) {

@@ -1,12 +1,8 @@
 import React, { Component } from 'react';
 import Header from 'grommet/components/Header';
-import Title from 'grommet/components/Title';
 import Box from 'grommet/components/Box';
 import Button from 'grommet/components/Button';
-import Section from 'grommet/components/Section';
 import Heading from 'grommet/components/Heading';
-import Paragraph from 'grommet/components/Paragraph';
-import Edit from 'grommet/components/icons/base/Edit';
 import Add from 'grommet/components/icons/base/Add';
 import Footer from 'grommet/components/Footer';
 import Layer from 'grommet/components/Layer';
