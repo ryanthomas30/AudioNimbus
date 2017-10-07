@@ -14,9 +14,7 @@ export function signinUser({ email, password }, callback) {
 				dispatch({ type: AUTH_USER, payload: response.data.id});
 				// - Save the JWT token
 				localStorage.setItem('token', response.data.token);
-				localStorage.setItem('userid', response.data.id);
 				// - Redirect to the route '/feature'
-				//browserHistory.push('/feature');
 			})
 			.catch(() => {
 				// If request is bad...
@@ -38,8 +36,6 @@ export function signupUser({ email, password }, callback) {
 				dispatch({ type: AUTH_USER, payload: response.data.id });
 				// - Save the JWT token
 				localStorage.setItem('token', response.data.token);
-				// localStorage.setItem('userid', response.data.id);
-
 			})
 			.catch(error => {
 				// If request is bad...
@@ -74,7 +70,6 @@ export function signoutUser(callback) {
 export function getUserId() {
 	return function(dispatch) {
 		const id = localStorage.getItem('userid');
-		console.log('localstorage userid is: ' + id)
 		return dispatch({ type: GET_ID, payload: id });
 	}
 }

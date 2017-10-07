@@ -18,10 +18,11 @@ const store = createStore(reducers, /* preloadedState, */ composeEnhancers(
 ));
 
 const token = localStorage.getItem('token');
+const userId = localStorage.getItem('userid');
 // If we have a token, consider user to be signed in
-if(token) {
+if(token && userId) {
 	// We need to update application state
-	store.dispatch({ type: AUTH_USER });
+	store.dispatch({ type: AUTH_USER, payload: userId });
 }
 
 const element = document.getElementById('root');
