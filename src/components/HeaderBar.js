@@ -57,7 +57,7 @@ class HeaderBar extends Component {
 	}
 
 	render() {
-		const logo = './full-logo.png'
+		const logo = './full-logo.png';
 		const signInLayer = this.state.signInOn ? (
 			<Layer closer={true}
 				align='center'
