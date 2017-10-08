@@ -5,6 +5,7 @@ export default function(state = {}, action) {
 		case GET_ABOUT:
 			return { ...state, about: action.payload };
 		case GET_TRACKS:
+			console.log('tracks:' + action.payload);
 			return {...state, tracks: action.payload}
 		default:
 			return state;

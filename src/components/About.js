@@ -37,7 +37,6 @@ class About extends Component {
 	// Submits the form by calling action creator
 	_submitForm() {
 		const { inputName, inputBio, inputLocation, inputImage } = this.state;
-		console.log(inputName);
 		const { updateAbout, userId, getAbout, routeId } = this.props;
 		updateAbout(userId, inputName, inputBio, inputLocation, inputImage, (success) => {
 			if (success) {

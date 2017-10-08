@@ -17,17 +17,18 @@ class Profile extends Component {
 		this._changeImage = this._changeImage.bind(this);
 	}
 
+	componentWillMount() {
+		this.props.getUserId();
+		this.props.getAbout(this.props.match.params.routeId);
+		this.props.getTracks(this.props.match.params.routeId);
+	}
+
 	_changeImage(inputImage) {
 		this.setState({ image: inputImage });
 	}
 
-	componentWillMount() {
-		this.props.getUserId();
-		this.props.getAbout(this.props.match.params.routeId);
-	}
-
 	render () {
-		const { userId, about, updateAbout, getAbout, tracks } = this.props;
+		const { userId, about, updateAbout, getAbout, tracks, uploadTrack, getTracks } = this.props;
 		const { routeId } = this.props.match.params;
 		const renderControls = routeId === userId;
 		let imageURL = 'http://lorempixel.com/1920/1080/abstract';
@@ -44,7 +45,8 @@ class Profile extends Component {
 					size='small' />
 				<Tabs justify='start'>
 					<Tab title='Tracks'>
-						<Tracks renderControls={renderControls} tracks={tracks} userId={userId} />
+						<Tracks renderControls={renderControls} tracks={tracks} userId={userId}
+						 	getTracks={getTracks} uploadTrack={uploadTrack} />
 					</Tab>
 					<Tab title='About'>
 						<About renderControls={renderControls} updateAbout={updateAbout}

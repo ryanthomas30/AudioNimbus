@@ -113,23 +113,58 @@ export function getTracks(userId) {
 			.then(response => {
 				dispatch({
 					type: GET_TRACKS,
-					payload: response.data.about
+					payload: response.data.tracks
 				});
 			})
 			.catch(error => {
-
+				console.log('could not get tracks');
 			});
 	}
 }
 
-export function uploadTrack(userId) {
+export function pushTrackNames(userId, { name, imagename, filename }) {
 	return function(dispatch) {
-		axios.put(`${ROOT_URL}/upload/${userId}`)
-			.then(() => {
-				dispatch(getTracks(userId));
+	axios.post(`${ROOT_URL}/uploadTrack/${userId}`, { name, imagename, filename })
+		.then(() => {
+			dispatch(getTracks(userId));
+		})
+		.catch(error => {
+			console.log(error.response.data);
+		});
+	}
+}
+
+// dispatch(pushTrackNames(userId, { name, imagename: '', filename }));
+export function uploadTrack(userId, name, image, file) {
+	return function(dispatch) {
+		let filename = '';
+		let imagename = '';
+		const formData = new FormData();
+		const imageData = new FormData();
+		formData.append('file', file);
+		imageData.append('image', image);
+		const config = {
+			headers: {
+				'content-type': 'multipart/form-data'
+			}
+		}
+		axios.post(`${ROOT_URL}/upload/${userId}`, formData, config)
+			.then((response) => {
+				filename = response.data.filename;
+				console.log('filename: ' + filename);
+				
+				axios.post(`${ROOT_URL}/uploadImage/${userId}`, imageData, config)
+					.then((response) => {
+						imagename = response.data.imagename;
+						console.log('imagename: ' + imagename);
+						dispatch(pushTrackNames(userId, { name, imagename, filename }));
+					})
+					.catch(error => {
+
+					});
 			})
 			.catch(error => {
-
+				console.log(error.response.data);
 			});
 	}
 }

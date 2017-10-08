@@ -40,3 +40,14 @@ exports.getTracks = function(req, res, next) {
 		res.send({ tracks: user.tracks });
 	});
 }
+
+exports.uploadTrack = function(req, res, next) {
+	const { userId } = req.params;
+	const { name, imagename, filename } = req.body;
+	const update = { name, imagename, filename }
+	User.findByIdAndUpdate(userId, { $push: { tracks: update }}, function(err, user) {
+		if (err) {
+			console.log(err);
+		}
+	});
+}

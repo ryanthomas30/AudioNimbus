@@ -16,11 +16,11 @@ class Tracks extends Component {
 	constructor(props) {
 		super(props);
 
-		this.state = { songs: [], songObj: { name: '', image: '', audio: '' }, layerOn: false };
+		this.state = { name: '', image: '', file: '', layerOn: false };
 	}
 
 	_closeUpload() {
-		this.setState({ layerOn: false, songObj: { name: '', image: '', audio: '' }});
+		this.setState({ layerOn: false, name: '', image: '', file: '' });
 	}
 
 	_openUpload() {
@@ -28,35 +28,31 @@ class Tracks extends Component {
 	}
 
 	_handleNameChange(event) {
-		this.setState({ songObj: { name: event.target.value, image: this.state.songObj.image, audio: this.state.songObj.audio }});
+		this.setState({ name: event.target.value, image: this.state.image, file: this.state.file });
 	}
 
 	_handleImageChange(event) {
-		let reader = new FileReader();
-		let file = event.target.files[0];
-		reader.onloadend = () => {
-			this.setState({ songObj:{name: this.state.songObj.name, image: reader.result, audio: this.state.songObj.audio }});
-		}
-		reader.readAsDataURL(file);
+		let image = event.target.files[0];
+		this.setState({ name: this.state.name, image: image, file: this.state.file });
 	}
 
-	_handleAudioChange(event) {
-		let reader = new FileReader();
+	_handleFileChange(event) {
 		let file = event.target.files[0];
-		reader.onloadend = () => {
-			this.setState({ songObj: { name: this.state.songObj.name, image: this.state.songObj.image, audio: reader.result }});
-		}
-		reader.readAsDataURL(file);
+		this.setState({ name: this.state.name, image: this.state.image, file: file });
 	}
 
 	_submitForm() {
 		this._closeUpload();
-		this.state.songs.push(this.state.songObj);
+		const { userId, uploadTrack, getTracks } = this.props;
+		const { name, image, file } = this.state
+		uploadTrack(userId, name, image, file);
+		getTracks(userId);
 	}
 
 	render() {
 		const { songs, layerOn } = this.state;
-		const { renderControls, tracks, userId } = this.props;
+		const { renderControls, tracks, userId, getTracks, uploadTrack } = this.props;
+		console.log(tracks);
 		const noSongsLabel = renderControls ? 'You have no songs.' : 'No songs to display.';
 		const uploadButton = renderControls ? (
 			<Box justify='center' >
@@ -90,7 +86,7 @@ class Tracks extends Component {
 								<input type="file" accept="image/*" onChange={ (e) => this._handleImageChange(e) }/>
 							</FormField>
 							<FormField label='Upload Track'>
-								<input type="file" accept="audio/*" onChange={ (e) => this._handleAudioChange(e) }/>
+								<input type="file" accept="audio/*" onChange={ (e) => this._handleFileChange(e) }/>
 							</FormField>
 							<Footer pad={{vertical: 'medium'}}>
 								<Button label='Submit' primary={true} onClick={ () => this._submitForm() } />
@@ -98,10 +94,12 @@ class Tracks extends Component {
 					</Form>
 				</Box>
 			</Layer> : '';
-		const trackList = songs[0] ?
-			songs.map(song => {
+		const abc = tracks ? tracks[0] : false;
+		let trackList = abc ?
+			tracks.map((track, i) => {
+				let { filename, imagename, name } = track;
 				return(
-					<AudioPlayer song={song} />
+					<AudioPlayer filename={filename} imagename={imagename} name={name} key={i} />
 				);
 			}) : (
 				<Box>
@@ -109,9 +107,9 @@ class Tracks extends Component {
 				</Box>
 			);
 		return(
-			<Box justify='center' align='center' pad={{ between: 'large' }} margin='medium' >
+			<Box justify='center' align='center' pad={{ between: 'large' }} margin={{ top: 'large', bottom: 'large' }} >
 				{addLayer}
-				<Box>
+				<Box pad={{ between: 'large' }} >
 					{trackList}
 				</Box>
 			</Box>

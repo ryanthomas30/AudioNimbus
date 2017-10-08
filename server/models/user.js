@@ -8,7 +8,7 @@ const userSchema = new Schema({
 	password: String,
 	about: { name: { type: String }, bio: { type: String },
 		location: { type: String }, image: { type: String }},
-	tracks: [{ name: { type: String }, image: { type: String },
+	tracks: [{ name: { type: String }, imagename: { type: String },
 		filename: { type: String }}]
 });
 

@@ -15,7 +15,7 @@ const Multer = require('multer');
 const multer = Multer({
 	dest: './uploads/',
 	limits: {
-		fileSize: 10 * 1024 * 1024 // No larger than 10MB. Arbitrarily chosen cap.
+		fileSize: 20 * 1024 * 1024 // No larger than 20MB. Arbitrarily chosen cap.
 	}
 });
 
@@ -25,6 +25,7 @@ module.exports = function(app) {
 	app.put('/putAbout/:userId', Profile.putAbout);
 	app.get('/getAbout/:userId', Profile.getAbout);
 	app.get('/getTracks/:userId', Profile.getTracks);
+	app.post('/uploadTrack/:userId', Profile.uploadTrack);
 
 	// Make sure there is a DB connection before setting up gridfs-stream
 	// There's probably a better way to write this
@@ -45,20 +46,31 @@ module.exports = function(app) {
 				filename: originalname
 			});
 
-			const { userId } = req.params;
-			const { name, image } = req.body
-			const update =  { name, image, filename: originalname }
-			User.findByIdAndUpdate(userId, { $push: { tracks: update }}, function(err, user) {
-				if (err) {
-					console.log(err);
-				}
-				//res.send({ tracks: user.tracks });
+			// TODO: Need a way to prevent filename collisions. Easiest way may be to just add timestamp.
+			fs
+				.createReadStream("./uploads/" + req.file.filename) // Read the file from disk that we just saved. Note: this is inefficient
+				.on("end", () => fs.unlink("./uploads/"+ req.file.filename, err => res.send({ filename: req.file.originalname }))) // When completed, delete the file and send completion
+				.on("err", () => res.send("Error uploading image"))
+				.pipe(writestream); // Pipe file contents from file to GridFS
+		});
+
+		app.post('/uploadImage/:userId', multer.single('image'), (req, res, next) => {
+			console.log('req.file', req.file)
+			const { file } = req;
+			if (!file) {
+				res.status(400).send('No file uploaded.');
+				return;
+			}
+			const { originalname } = file;
+
+			var writestream = gfs.createWriteStream({
+				filename: originalname
 			});
 
 			// TODO: Need a way to prevent filename collisions. Easiest way may be to just add timestamp.
 			fs
 				.createReadStream("./uploads/" + req.file.filename) // Read the file from disk that we just saved. Note: this is inefficient
-				.on("end", () => fs.unlink("./uploads/"+ req.file.filename, err => res.status(201).send("File uploaded"))) // When completed, delete the file and send completion
+				.on("end", () => fs.unlink("./uploads/"+ req.file.filename, err => res.send({ imagename: req.file.originalname }))) // When completed, delete the file and send completion
 				.on("err", () => res.send("Error uploading image"))
 				.pipe(writestream); // Pipe file contents from file to GridFS
 		});

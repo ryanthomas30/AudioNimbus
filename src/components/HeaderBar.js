@@ -8,6 +8,11 @@ import Label from 'grommet/components/Label';
 import Search from 'grommet/components/Search';
 import Image from 'grommet/components/Image';
 import Signin from './auth/signin';
+import FormField from 'grommet/components/FormField';
+import Form from 'grommet/components/Form';
+import Heading from 'grommet/components/Heading';
+import Footer from 'grommet/components/Footer';
+import TextInput from 'grommet/components/TextInput';
 import Signup from './auth/signup';
 import * as actions from '../actions';
 import { connect } from 'react-redux';
@@ -17,7 +22,8 @@ class HeaderBar extends Component {
 	constructor(props) {
 		super(props);
 
-		this.state = { signInOn: false, signUpOn: false, signOutOn: false };
+		this.state = { signInOn: false, signUpOn: false, signOutOn: false, uploadOn: false,
+		 	name: '', image: '', file: '' };
 
 		this._closeSignIn = this._closeSignIn.bind(this);
 		this._closeSignUp = this._closeSignUp.bind(this);
@@ -56,8 +62,65 @@ class HeaderBar extends Component {
 		this._closeSignOut();
 	}
 
+	_closeUpload() {
+		this.setState({ uploadOn: false, name: '', image: '', file: '' });
+	}
+
+	_openUpload() {
+		this.setState({ uploadOn: true });
+	}
+
+	_handleNameChange(event) {
+		this.setState({ name: event.target.value, image: this.state.image, file: this.state.file });
+	}
+
+	_handleImageChange(event) {
+		let image = event.target.files[0];
+		this.setState({ name: this.state.name, image: image, file: this.state.file });
+	}
+
+	_handleFileChange(event) {
+		let file = event.target.files[0];
+		this.setState({ name: this.state.name, image: this.state.image, file: file });
+	}
+
+	_submitForm() {
+		this._closeUpload();
+		const { userId, uploadTrack, getTracks } = this.props;
+		const { name, image, file } = this.state
+		uploadTrack(userId, name, image, file);
+		getTracks(userId);
+	}
+
 	render() {
 		const logo = './full-logo.png';
+		const addLayer = this.state.uploadOn ?
+			<Layer closer={true}
+				align='center'
+				onClose={() => this._closeUpload()} >
+				<Box size='xlarge'
+						 full={true}>
+					<Form onSubmit={() => this._submitForm()} >
+							<Header>
+								<Heading margin='medium'>
+									Upload Track
+								</Heading>
+							</Header>
+							<FormField label='Track Name'>
+								<TextInput defaultValue={name} onDOMChange={ (e) => this._handleNameChange(e) } />
+							</FormField>
+							<FormField label='Upload Track Image'>
+								<input type="file" accept="image/*" onChange={ (e) => this._handleImageChange(e) }/>
+							</FormField>
+							<FormField label='Upload Track'>
+								<input type="file" accept="audio/*" onChange={ (e) => this._handleFileChange(e) }/>
+							</FormField>
+							<Footer pad={{vertical: 'medium'}}>
+								<Button label='Submit' primary={true} onClick={ () => this._submitForm() } />
+							</Footer>
+					</Form>
+				</Box>
+			</Layer> : '';
 		const signInLayer = this.state.signInOn ? (
 			<Layer closer={true}
 				align='center'
@@ -90,7 +153,7 @@ class HeaderBar extends Component {
 			</Layer>
 		) : '';
 		const buttons = this.props.authenticated ? [
-			<Button label='Upload Track' primary={true} key={1} />,
+			<Button label='Upload Track' primary={true} key={1} onClick={() => this._openUpload()} />,
 			<Button label='Log Out' onClick={() => this._openSignOut()} key={2} />
 		] : [
 			<Button label='Log In' primary={true} onClick={() => this._openSignIn()} key={1} />,
@@ -98,6 +161,7 @@ class HeaderBar extends Component {
 		];
 		return(
 			<Header splash={false} float={false} >
+				{addLayer}
 				{signInLayer}
 				{signUpLayer}
 				{signOutLayer}
