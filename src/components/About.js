@@ -42,7 +42,7 @@ class About extends Component {
 		updateAbout(userId, inputName, inputBio, inputLocation, inputImage, (success) => {
 			if (success) {
 				this._closeEdit();
-				getAbout(routeId);
+				getAbout(routeId); // Might be redundant
 			}
 		});
 	}
@@ -70,7 +70,7 @@ class About extends Component {
 	}
 
 	render() {
-		const { layerOn, inputName, inputBio, inputLocation } = this.state;
+		const { layerOn } = this.state;
 		const { renderControls, about } = this.props;
 		const renderButton = renderControls ? (
 			<Header>

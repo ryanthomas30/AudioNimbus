@@ -27,12 +27,9 @@ class Profile extends Component {
 	}
 
 	render () {
-		const { userId, about, updateAbout, getAbout } = this.props;
+		const { userId, about, updateAbout, getAbout, tracks } = this.props;
 		const { routeId } = this.props.match.params;
-		console.log(routeId);
-		console.log(userId);
 		const renderControls = routeId === userId;
-		console.log(renderControls);
 		let imageURL = 'http://lorempixel.com/1920/1080/abstract';
 		if(about) {
 			if(about.image) {
@@ -47,7 +44,7 @@ class Profile extends Component {
 					size='small' />
 				<Tabs justify='start'>
 					<Tab title='Tracks'>
-						<Tracks renderControls={renderControls} />
+						<Tracks renderControls={renderControls} tracks={tracks} userId={userId} />
 					</Tab>
 					<Tab title='About'>
 						<About renderControls={renderControls} updateAbout={updateAbout}
@@ -64,7 +61,8 @@ function mapStateToProps(state) {
 	return {
 		authenticated: state.auth.authenticated,
 		userId: state.auth.userId,
-		about: state.profile.about
+		about: state.profile.about,
+		tracks: state.profile.tracks
 	};
 }
 

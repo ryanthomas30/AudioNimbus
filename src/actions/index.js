@@ -1,5 +1,5 @@
 import axios from 'axios';
-import { AUTH_USER, UNAUTH_USER, AUTH_ERROR, GET_ID, GET_ABOUT } from './types';
+import { AUTH_USER, UNAUTH_USER, AUTH_ERROR, GET_ID, GET_ABOUT, GET_TRACKS } from './types';
 
 const ROOT_URL = 'http://localhost:3090';
 
@@ -12,6 +12,7 @@ export function signinUser({ email, password }, callback) {
 				// If request is good...
 				// - Update state tp indicate user is authenticated
 				dispatch({ type: AUTH_USER, payload: response.data.id});
+				dispatch(getAbout(response.data.id));
 				// - Save the JWT token
 				localStorage.setItem('token', response.data.token);
 				// - Redirect to the route '/feature'
@@ -34,6 +35,7 @@ export function signupUser({ email, password }, callback) {
 				// If request is good...
 				// - Update state tp indicate user is authenticated
 				dispatch({ type: AUTH_USER, payload: response.data.id });
+				dispatch(getAbout(response.data.id));
 				// - Save the JWT token
 				localStorage.setItem('token', response.data.token);
 			})
@@ -96,8 +98,35 @@ export function getAbout(userId) {
 			.then(response => {
 				dispatch({
 					type: GET_ABOUT,
-					payload:response.data.about
+					payload: response.data.about
 				});
+			})
+			.catch(error => {
+
+			});
+	}
+}
+
+export function getTracks(userId) {
+	return function(dispatch) {
+		axios.get(`${ROOT_URL}/getTracks/${userId}`)
+			.then(response => {
+				dispatch({
+					type: GET_TRACKS,
+					payload: response.data.about
+				});
+			})
+			.catch(error => {
+
+			});
+	}
+}
+
+export function uploadTrack(userId) {
+	return function(dispatch) {
+		axios.put(`${ROOT_URL}/upload/${userId}`)
+			.then(() => {
+				dispatch(getTracks(userId));
 			})
 			.catch(error => {
 

@@ -7,7 +7,9 @@ const userSchema = new Schema({
 	email: { type: String, unique: true, lowercase: true },
 	password: String,
 	about: { name: { type: String }, bio: { type: String },
-		location: { type: String }, image: { type: String }}
+		location: { type: String }, image: { type: String }},
+	tracks: [{ name: { type: String }, image: { type: String },
+		filename: { type: String }}]
 });
 
 // On Save Hook, encrypt password

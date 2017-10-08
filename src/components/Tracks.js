@@ -56,6 +56,21 @@ class Tracks extends Component {
 
 	render() {
 		const { songs, layerOn } = this.state;
+		const { renderControls, tracks, userId } = this.props;
+		const noSongsLabel = renderControls ? 'You have no songs.' : 'No songs to display.';
+		const uploadButton = renderControls ? (
+			<Box justify='center' >
+				<Label align='center' >{noSongsLabel}</Label>
+				<Button icon={<Add />}
+					primary={true}
+					label='Add Track'
+					onClick={() => this._openUpload()} />
+			</Box>
+			) : (
+				<Box justify='center' >
+					<Label align='center' >{noSongsLabel}</Label>
+				</Box>
+			);
 		const addLayer = layerOn ?
 			<Layer closer={true}
 				align='center'
@@ -89,18 +104,16 @@ class Tracks extends Component {
 					<AudioPlayer song={song} />
 				);
 			}) : (
-				<Label>
-					You have no songs.
-				</Label>
+				<Box>
+					{uploadButton}
+				</Box>
 			);
 		return(
 			<Box justify='center' align='center' pad={{ between: 'large' }} margin='medium' >
 				{addLayer}
-				<Button icon={<Add />}
-					primary={true}
-					label='Add Track'
-					onClick={() => this._openUpload()} />
-				{trackList}
+				<Box>
+					{trackList}
+				</Box>
 			</Box>
 		);
 	}
