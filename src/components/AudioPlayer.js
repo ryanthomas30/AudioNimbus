@@ -6,9 +6,10 @@ class AudioPlayer extends Component {
 		const ROOT_URL = 'http://localhost:3090';
 		const { name, imagename, filename } = this.props;
 		const imageURL = imagename ? `${ROOT_URL}/files/${imagename}` : 'http://lorempixel.com/500/500/abstract';
+		const songURL = `${ROOT_URL}/files/${filename}`;
 		const songObj = {
 			name: name, // song name
-			src: `${ROOT_URL}/files/${filename}`, // song source address
+			src: songURL, // song source address
 			img: imageURL // (optional) song image source address
 		}
 		const playList=[songObj];
