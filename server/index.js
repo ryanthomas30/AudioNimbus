@@ -14,7 +14,7 @@ mongoose.connect('mongodb://localhost:auth/auth');
 // App Setup
 app.use(morgan('combined'));
 app.use(cors());
-app.use(bodyParser.json({ type: '*/*', limit: '5mb'}));
+app.use(bodyParser.json({ limit: '5mb' }));
 app.use(bodyParser.urlencoded({ limit: '5mb', extended: true }));
 router(app);
 

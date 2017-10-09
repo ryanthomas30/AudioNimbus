@@ -37,12 +37,11 @@ class About extends Component {
 	// Submits the form by calling action creator
 	_submitForm() {
 		const { inputName, inputBio, inputLocation, inputImage } = this.state;
-		console.log(inputName);
 		const { updateAbout, userId, getAbout, routeId } = this.props;
 		updateAbout(userId, inputName, inputBio, inputLocation, inputImage, (success) => {
 			if (success) {
 				this._closeEdit();
-				getAbout(routeId);
+				getAbout(routeId); // Might be redundant
 			}
 		});
 	}
@@ -70,7 +69,7 @@ class About extends Component {
 	}
 
 	render() {
-		const { layerOn, inputName, inputBio, inputLocation } = this.state;
+		const { layerOn } = this.state;
 		const { renderControls, about } = this.props;
 		const renderButton = renderControls ? (
 			<Header>
@@ -98,7 +97,7 @@ class About extends Component {
 								</Heading>
 							</Header>
 							<FormField label='Name'>
-								<TextInput defaultValue={inputName} onDOMChange={ (e) => this._handleNameChange(e) } />
+								<TextInput defaultValue={about.name} onDOMChange={ (e) => this._handleNameChange(e) } />
 							</FormField>
 							<FormField label='Bio'>
 								<TextInput defaultValue={about.bio} onDOMChange={ (e) => this._handleBioChange(e) } />
