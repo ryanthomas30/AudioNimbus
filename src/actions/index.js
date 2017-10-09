@@ -130,7 +130,6 @@ export function pushTrackNames(userId, { name, imagename, filename }) {
 			 type: GET_TRACKS,
 			 payload: response.data.tracks
 			})
-			location.reload();
 		})
 		.catch(error => {
 			console.log(error.response.data);
