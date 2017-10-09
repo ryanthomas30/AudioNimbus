@@ -47,12 +47,12 @@ class Tracks extends Component {
 		const { name, image, file } = this.state
 		uploadTrack(userId, name, image, file);
 		getTracks(userId);
+		location.reload();
 	}
 
 	render() {
 		const { songs, layerOn } = this.state;
 		const { renderControls, tracks, userId, getTracks, uploadTrack } = this.props;
-		console.log(tracks);
 		const noSongsLabel = renderControls ? 'You have no songs.' : 'No songs to display.';
 		const uploadButton = renderControls ? (
 			<Box justify='center' >

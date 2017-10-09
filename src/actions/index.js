@@ -117,7 +117,7 @@ export function getTracks(userId) {
 				});
 			})
 			.catch(error => {
-				console.log('could not get tracks');
+				console.log('Could not get tracks');
 			});
 	}
 }
@@ -125,8 +125,12 @@ export function getTracks(userId) {
 export function pushTrackNames(userId, { name, imagename, filename }) {
 	return function(dispatch) {
 	axios.post(`${ROOT_URL}/uploadTrack/${userId}`, { name, imagename, filename })
-		.then(() => {
-			dispatch(getTracks(userId));
+		.then((response) => {
+			dispatch({
+			 type: GET_TRACKS,
+			 payload: response.data.tracks
+			})
+			location.reload();
 		})
 		.catch(error => {
 			console.log(error.response.data);
@@ -152,7 +156,6 @@ export function uploadTrack(userId, name, image, file) {
 			.then((response) => {
 				filename = response.data.filename;
 				console.log('filename: ' + filename);
-				
 				axios.post(`${ROOT_URL}/uploadImage/${userId}`, imageData, config)
 					.then((response) => {
 						imagename = response.data.imagename;

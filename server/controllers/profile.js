@@ -49,5 +49,6 @@ exports.uploadTrack = function(req, res, next) {
 		if (err) {
 			console.log(err);
 		}
+		res.send({ tracks: user.tracks });
 	});
 }
