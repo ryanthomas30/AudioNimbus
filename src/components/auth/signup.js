@@ -31,12 +31,13 @@ class Signup extends Component {
 		// Call action creator to sign up the user
 		let email = this.state.inputEmail;
 		let password = this.state.inputPassword;
-		this.props.signupUser({ email, password }, (b, userId) => {
-			if (b) {
+		this.props.signupUser({ email, password }, (success, userId) => {
+			if (success) {
 				this.props.closeSignUp();
 				this.props.history.push(`/profile/${userId}`);
 				this.setState({ inputEmail: '', inputPassword: '', inputConfirmPassword: '',
 					inputErrors: { email: '', password: '', passwordConfirm: '' } });
+				location.reload();
 			}
 		});
 	}
@@ -110,10 +111,10 @@ class Signup extends Component {
 					<TextInput onDOMChange={(e) => this._handleEmailChange(e)} />
 				</FormField>
 				<FormField label='Password' error={password} >
-					<TextInput onDOMChange={(e) => this._handlePassChange(e)} />
+					<TextInput onDOMChange={(e) => this._handlePassChange(e)} type='password' />
 				</FormField>
 				<FormField label='Confirm Password' error={passwordConfirm} >
-					<TextInput onDOMChange={(e) => this._handleConfirmPassChange(e)} />
+					<TextInput onDOMChange={(e) => this._handleConfirmPassChange(e)} type='password' />
 				</FormField>
 				{this.renderAlert()}
 				<Footer pad={{vertical: 'medium'}}>

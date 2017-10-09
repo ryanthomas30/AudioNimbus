@@ -90,11 +90,11 @@ class HeaderBar extends Component {
 		const { name, image, file } = this.state
 		uploadTrack(userId, name, image, file);
 		getTracks(userId);
-		location.reload();
+		// location.reload();
 	}
 
 	render() {
-		const logo = './full-logo.png';
+		const logo = '../full-logo.png';
 		const addLayer = this.state.uploadOn ?
 			<Layer closer={true}
 				align='center'
@@ -166,7 +166,7 @@ class HeaderBar extends Component {
 				{signInLayer}
 				{signUpLayer}
 				{signOutLayer}
-				<Image src={logo} />
+				<Image src={logo} role='presentation' />
 				<Box flex={true}
 					justify='end'
 					direction='row'

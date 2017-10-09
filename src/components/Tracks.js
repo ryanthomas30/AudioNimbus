@@ -47,7 +47,7 @@ class Tracks extends Component {
 		const { name, image, file } = this.state
 		uploadTrack(userId, name, image, file);
 		getTracks(userId);
-		location.reload();
+		//location.reload();
 	}
 
 	render() {
