@@ -1,13 +1,27 @@
 import React, {Component} from 'react';
+import { withRouter } from 'react-router-dom';
 import { connect } from 'react-redux';
-import { Field, reduxForm } from 'redux-form';
 import * as actions from '../../actions';
+import LoginForm from 'grommet/components/LoginForm';
+import Box from 'grommet/components/Box';
 
 class Signin extends Component {
+	constructor(props) {
+		super(props);
 
-	handleFormSubmit({ email, password }) {
+		this._handleFormSubmit = this._handleFormSubmit.bind(this);
+	}
+
+	_handleFormSubmit(login) {
 		// Need to do somethign to log user in
-		this.props.signinUser({ email, password });
+		let { password } = login;
+		let email = login.username;
+		this.props.signinUser({ email, password }, (b, userId) => {
+			if (b) {
+				this.props.closeSignIn();
+				this.props.history.push(`/profile/${userId}`);
+			}
+		});
 	}
 
 	renderAlert() {
@@ -22,31 +36,22 @@ class Signin extends Component {
 	}
 
 	render() {
-		const { handleSubmit, fields: { email, password }} = this.props;
 		return (
-			<form onSubmit={handleSubmit(this.handleFormSubmit.bind(this))} >
-				<fieldset className='form-group'>
-					<label>Email</label>
-					<Field name='email' component='input' className='form-control' />
-				</fieldset>
-				<fieldset className='form-group'>
-					<label>Password</label>
-					<Field name='password' type='password' component='input' className='form-control' />
-				</fieldset>
+			<Box justify='center' align='center' full={true} >
+				<LoginForm align='center' title='Log In'
+					onSubmit={(login) => this._handleFormSubmit(login)} />
 				{this.renderAlert()}
-				<button action='submit' className='btn btn-primary'>Sign In</button>
-			</form>
+			</Box>
+
 		);
 	}
 }
 
 function mapStateToProps(state) {
-	return { errorMessage: state.auth.error };
+	return {
+		errorMessage: state.auth.error,
+		userID: state.auth.userID
+	};
 }
 
-Signin = connect(mapStateToProps, actions)(Signin);
-
-export default reduxForm({
-	form: 'signin',
-	fields: ['email', 'password']
-})(Signin);
+export default connect(mapStateToProps, actions)(withRouter(Signin));

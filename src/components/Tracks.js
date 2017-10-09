@@ -1,12 +1,8 @@
 import React, { Component } from 'react';
 import Header from 'grommet/components/Header';
-import Title from 'grommet/components/Title';
 import Box from 'grommet/components/Box';
 import Button from 'grommet/components/Button';
-import Section from 'grommet/components/Section';
 import Heading from 'grommet/components/Heading';
-import Paragraph from 'grommet/components/Paragraph';
-import Edit from 'grommet/components/icons/base/Edit';
 import Add from 'grommet/components/icons/base/Add';
 import Footer from 'grommet/components/Footer';
 import Layer from 'grommet/components/Layer';
@@ -20,11 +16,11 @@ class Tracks extends Component {
 	constructor(props) {
 		super(props);
 
-		this.state = { songs: [], songObj: { name: '', image: '', audio: '' }, layerOn: false };
+		this.state = { name: '', image: '', file: '', layerOn: false };
 	}
 
 	_closeUpload() {
-		this.setState({ layerOn: false, songObj: { name: '', image: '', audio: '' }});
+		this.setState({ layerOn: false, name: '', image: '', file: '' });
 	}
 
 	_openUpload() {
@@ -32,34 +28,45 @@ class Tracks extends Component {
 	}
 
 	_handleNameChange(event) {
-		this.setState({ songObj: { name: event.target.value, image: this.state.songObj.image, audio: this.state.songObj.audio }});
+		this.setState({ name: event.target.value, image: this.state.image, file: this.state.file });
 	}
 
 	_handleImageChange(event) {
-		let reader = new FileReader();
-		let file = event.target.files[0];
-		reader.onloadend = () => {
-			this.setState({ songObj:{name: this.state.songObj.name, image: reader.result, audio: this.state.songObj.audio }});
-		}
-		reader.readAsDataURL(file);
+		let image = event.target.files[0];
+		this.setState({ name: this.state.name, image: image, file: this.state.file });
 	}
 
-	_handleAudioChange(event) {
-		let reader = new FileReader();
+	_handleFileChange(event) {
 		let file = event.target.files[0];
-		reader.onloadend = () => {
-			this.setState({ songObj: { name: this.state.songObj.name, image: this.state.songObj.image, audio: reader.result }});
-		}
-		reader.readAsDataURL(file);
+		this.setState({ name: this.state.name, image: this.state.image, file: file });
 	}
 
 	_submitForm() {
 		this._closeUpload();
-		this.state.songs.push(this.state.songObj);
+		const { userId, uploadTrack, getTracks } = this.props;
+		const { name, image, file } = this.state
+		uploadTrack(userId, name, image, file);
+		getTracks(userId);
+		location.reload();
 	}
 
 	render() {
 		const { songs, layerOn } = this.state;
+		const { renderControls, tracks, userId, getTracks, uploadTrack } = this.props;
+		const noSongsLabel = renderControls ? 'You have no songs.' : 'No songs to display.';
+		const uploadButton = renderControls ? (
+			<Box justify='center' >
+				<Label align='center' >{noSongsLabel}</Label>
+				<Button icon={<Add />}
+					primary={true}
+					label='Add Track'
+					onClick={() => this._openUpload()} />
+			</Box>
+			) : (
+				<Box justify='center' >
+					<Label align='center' >{noSongsLabel}</Label>
+				</Box>
+			);
 		const addLayer = layerOn ?
 			<Layer closer={true}
 				align='center'
@@ -79,7 +86,7 @@ class Tracks extends Component {
 								<input type="file" accept="image/*" onChange={ (e) => this._handleImageChange(e) }/>
 							</FormField>
 							<FormField label='Upload Track'>
-								<input type="file" accept="audio/*" onChange={ (e) => this._handleAudioChange(e) }/>
+								<input type="file" accept="audio/*" onChange={ (e) => this._handleFileChange(e) }/>
 							</FormField>
 							<Footer pad={{vertical: 'medium'}}>
 								<Button label='Submit' primary={true} onClick={ () => this._submitForm() } />
@@ -87,24 +94,24 @@ class Tracks extends Component {
 					</Form>
 				</Box>
 			</Layer> : '';
-		const trackList = songs[0] ?
-			songs.map(song => {
+		const abc = tracks ? tracks[0] : false;
+		let trackList = abc ?
+			tracks.map((track, i) => {
+				let { filename, imagename, name } = track;
 				return(
-					<AudioPlayer song={song} />
+					<AudioPlayer filename={filename} imagename={imagename} name={name} key={i} />
 				);
 			}) : (
-				<Label>
-					You have no songs.
-				</Label>
+				<Box>
+					{uploadButton}
+				</Box>
 			);
 		return(
-			<Box justify='center' align='center' pad={{ between: 'large' }} margin='medium' >
+			<Box justify='center' align='center' pad={{ between: 'large' }} margin={{ top: 'large', bottom: 'large' }} >
 				{addLayer}
-				<Button icon={<Add />}
-					primary={true}
-					label='Add Track'
-					onClick={() => this._openUpload()} />
-				{trackList}
+				<Box pad={{ between: 'large' }} >
+					{trackList}
+				</Box>
 			</Box>
 		);
 	}

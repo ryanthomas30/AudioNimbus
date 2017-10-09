@@ -3,12 +3,13 @@ import Audio from 'react-audioplayer';
 
 class AudioPlayer extends Component {
 	render() {
-		const { song } = this.props;
-		const imgFile = song.image ? song.image : 'http://lorempixel.com/500/500/abstract';
+		const ROOT_URL = 'http://localhost:3090';
+		const { name, imagename, filename } = this.props;
+		const imageURL = imagename ? `${ROOT_URL}/files/${imagename}` : 'http://lorempixel.com/500/500/abstract';
 		const songObj = {
-			name: song.name, // song name
-			src: song.audio, // song source address
-			img: imgFile // (optional) song image source address
+			name: name, // song name
+			src: `${ROOT_URL}/files/${filename}`, // song source address
+			img: imageURL // (optional) song image source address
 		}
 		const playList=[songObj];
 		return(
