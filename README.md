@@ -6,6 +6,8 @@ AudioNimbus is an audio distribution web application for uploading music, podcas
 
 ## Running Locally
 
+### For users running macOS:
+
 #### Clone Repo
 
 `git clone https://github.com/ryanthomas30/AudioNimbus.git`
@@ -13,6 +15,27 @@ AudioNimbus is an audio distribution web application for uploading music, podcas
 #### Move Into Folder
 
 `cd ~/AudioNimbus`
+
+#### Install Dependencies
+
+`npm install`
+
+#### Run Dev Mode
+
+`npm start`
+
+Open your browser and visit: `http://localhost:3000/`
+
+
+### For users running Windows OS:
+
+#### Download Repo 
+
+Go to github.com/ryanthomas30/AudioNimbus, click Clone or Download, then Download Zip
+
+#### Move Into Folder 
+
+`cd /d AudioNimbus`
 
 #### Install Dependencies
 
