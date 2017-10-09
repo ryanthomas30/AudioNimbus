@@ -27,7 +27,7 @@ class LandingPage extends Component {
             What is AudioNimbus ?
           </Headline>
           <Paragraph size='medium'>
-            AudioNimbus is an audio distribution web application for uploading music, podcasts, and other audio, enabling users to share their original audio content. It will be built in a Node.js environment, along with Express.js, MongoDB, and React. This will enable us to use JavaScript for both client-side and server-side environments.
+            AudioNimbus is an audio distribution web application for uploading music, podcasts, and other audio, enabling users to share their original audio content. .
           </Paragraph>
         </Section>
         <Section pad='large'
