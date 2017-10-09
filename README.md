@@ -22,17 +22,17 @@ AudioNimbus is an audio distribution web application for uploading music, podcas
 
 `cd ~/AudioNimbus/server`
 
-#### Install BackEnd dependencies
+#### Install BackEnd Dependencies
 
 `npm install`
 
 #### Add config.js
 
-Add a file called `config.js`:
+Add a file called `config.js` containing:
 
 `module.exports={
   secret: '<String>'
-}:`
+};`
 
 *Replace <String> with any string of 10 or more characters
   
@@ -44,7 +44,7 @@ https://www.mongodb.com/download-center?jmp=nav#community
 
 https://docs.mongodb.com/manual/installation/
 
-Scroll down to "Tutorials" and follow instructions based on operating system. Add `mongod.exe` to your path
+Scroll down to "Tutorials" and follow instructions based on operating system. Add `mongod.exe` to your path.
 
 #### Running Applications
 
