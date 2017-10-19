@@ -1,5 +1,6 @@
 // Main starting point of the application
 const express = require('express');
+const path = require('path')
 const http = require('http');
 const bodyParser = require('body-parser');
 const morgan = require('morgan');
@@ -14,6 +15,7 @@ mongoose.connect('mongodb://localhost:auth/auth');
 // App Setup
 app.use(morgan('combined'));
 app.use(cors());
+app.use(express.static(path.resolve(__dirname, '..', 'build')));
 app.use(bodyParser.json({ limit: '5mb' }));
 app.use(bodyParser.urlencoded({ limit: '5mb', extended: true }));
 router(app);
