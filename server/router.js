@@ -2,6 +2,7 @@ const Authentication = require('./controllers/authentication');
 const Profile = require('./controllers/profile');
 require('./services/passport');
 const passport = require('passport');
+const path = require('path');
 const fs = require("fs");
 const User = require('./models/user');
 
@@ -83,5 +84,10 @@ module.exports = function(app) {
 			});
 			readstream.pipe(res);
 		});
+	});
+
+	app.get('*', (req, res) => {
+		console.log(__dirname)
+		res.sendFile(path.resolve(__dirname, '..', 'build', 'index.html'));
 	});
 }
