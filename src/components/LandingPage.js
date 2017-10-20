@@ -36,7 +36,7 @@ class LandingPage extends Component {
 	          align='center'
 	          full='vertical'
 	          colorIndex='accent-1-a'>
-		          <Headline margin={{ bottom: 'large' }} >
+		          <Headline margin='large' >
 		            You should be able to
 		          </Headline>
 		          <Label size='medium' margin='small' >

@@ -1,12 +1,12 @@
 import axios from 'axios';
+import { API_ROOT } from './api-config';
 import { AUTH_USER, UNAUTH_USER, AUTH_ERROR, GET_ID, GET_ABOUT, GET_TRACKS } from './types';
 
-const ROOT_URL = process.env.ROOT_URL;
 
 export function signinUser({ email, password }, callback) {
 	return function(dispatch) {
 		// Submit email/password to the server
-		axios.post(`${ROOT_URL}signin`, { email, password })
+		axios.post(`${API_ROOT}signin`, { email, password })
 			.then(response => {
 				callback(true, response.data.id);
 				// If request is good...
@@ -29,7 +29,7 @@ export function signinUser({ email, password }, callback) {
 export function signupUser({ email, password }, callback) {
 	return function(dispatch) {
 		// Submit email/password to the server
-		axios.post(`${ROOT_URL}signup`, { email, password })
+		axios.post(`${API_ROOT}signup`, { email, password })
 			.then(response => {
 				callback(true, response.data.id);
 				// If request is good...
@@ -78,7 +78,7 @@ export function getUserId() {
 
 export function updateAbout(userId, name, bio, location, image, callback) {
 	return function(dispatch) {
-		axios.put(`${ROOT_URL}putAbout/${userId}`, { name, bio, location, image })
+		axios.put(`${API_ROOT}putAbout/${userId}`, { name, bio, location, image })
 			.then(response => {
 				callback(true);
 				dispatch({
@@ -94,7 +94,7 @@ export function updateAbout(userId, name, bio, location, image, callback) {
 
 export function getAbout(userId) {
 	return function(dispatch) {
-		axios.get(`${ROOT_URL}getAbout/${userId}`)
+		axios.get(`${API_ROOT}getAbout/${userId}`)
 			.then(response => {
 				dispatch({
 					type: GET_ABOUT,
@@ -109,7 +109,7 @@ export function getAbout(userId) {
 
 export function getTracks(userId) {
 	return function(dispatch) {
-		axios.get(`${ROOT_URL}getTracks/${userId}`)
+		axios.get(`${API_ROOT}getTracks/${userId}`)
 			.then(response => {
 				dispatch({
 					type: GET_TRACKS,
@@ -124,7 +124,7 @@ export function getTracks(userId) {
 
 export function pushTrackNames(userId, { name, imagename, filename }) {
 	return function(dispatch) {
-	axios.post(`${ROOT_URL}uploadTrack/${userId}`, { name, imagename, filename })
+	axios.post(`${API_ROOT}uploadTrack/${userId}`, { name, imagename, filename })
 		.then((response) => {
 			dispatch({
 			 type: GET_TRACKS,
@@ -152,11 +152,11 @@ export function uploadTrack(userId, name, image, file) {
 				'content-type': 'multipart/form-data'
 			}
 		}
-		axios.post(`${ROOT_URL}upload/${userId}`, formData, config)
+		axios.post(`${API_ROOT}upload/${userId}`, formData, config)
 			.then((response) => {
 				filename = response.data.filename;
 				console.log('filename: ' + filename);
-				axios.post(`${ROOT_URL}uploadImage/${userId}`, imageData, config)
+				axios.post(`${API_ROOT}uploadImage/${userId}`, imageData, config)
 					.then((response) => {
 						imagename = response.data.imagename;
 						console.log('imagename: ' + imagename);
