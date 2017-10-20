@@ -14,25 +14,16 @@ AudioNimbus is an audio distribution web application for uploading music, podcas
 
 `cd ~/AudioNimbus`
 
-#### Install FrontEnd Dependencies
-
-`npm install`
-
-#### Move Into AudioNimbus server Folder
-
-`cd ~/AudioNimbus/server`
-
-#### Install BackEnd Dependencies
+#### Install Dependencies
 
 `npm install`
 
 #### Add config.js
 
-Add a file called `config.js` containing:
+Add a file called `.env` in the root directory `~/AudioNimbus` containing:
 
-`module.exports={
-  secret: '<String>'
-};`
+`MONGODB_URI=mongodb://localhost:auth/auth
+SECRET=<STRING>`
 
 *Replace <String> with any string of 10 or more characters
   
@@ -50,13 +41,8 @@ Scroll down to "Tutorials" and follow instructions based on operating system. Ad
 
 In 3 separate instances of terminal/command prompt, please run these commands:
 
-In `~/AudioNimbus` run `npm start`
-
-In `/AudioNimbus/server` run `npm run dev`
+In `~/AudioNimbus` run `npm run dev` and `npm run dev-server`
 
 Anywhere, run `mongod` 
 
 Open your browser and visit: `http://localhost:3000/`
-
-
-
