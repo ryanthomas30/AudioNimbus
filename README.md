@@ -18,20 +18,22 @@ AudioNimbus is an audio distribution web application for uploading music, podcas
 
 `npm install`
 
-#### Add config.js
+#### Add Environment Variables
 
 Add a file called `.env` in the root directory `~/AudioNimbus` containing:
 
-`MONGODB_URI=mongodb://localhost:auth/auth
-SECRET=<STRING>`
+```
+MONGODB_URI=mongodb://localhost:auth/auth
+SECRET=<STRING>
+```
 
-*Replace <String> with any string of 10 or more characters
+*Set SECRET to any string of 10 or more characters*
   
-#### Install MongoDB
+#### Download MongoDB
 
 https://www.mongodb.com/download-center?jmp=nav#community
 
-#### Run MongoDB
+#### Install MongoDB
 
 https://docs.mongodb.com/manual/installation/
 
