@@ -71,7 +71,7 @@ class LandingPage extends Component {
 						align='center'
 						full='vertical'
 						colorIndex='accent-1-a'
-						style={{ width: window.innerWidth }} > >
+						style={{ width: window.innerWidth }} >
 						<Headline margin='none'>
 							Section 4
 						</Headline>
