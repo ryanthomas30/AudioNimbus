@@ -161,7 +161,7 @@ class HeaderBar extends Component {
 			<Button label='Sign Up' onClick={() => this._openSignUp()} key={2} />
 		];
 		return(
-			<Header splash={false} float={false} >
+			<Header splash={false} float={false} fixed={false} >
 				{addLayer}
 				{signInLayer}
 				{signUpLayer}
