@@ -71,6 +71,7 @@ class About extends Component {
 	render() {
 		const { layerOn } = this.state;
 		const { renderControls, about } = this.props;
+		const btnStyle = { margin: '.2em' };
 		const renderButton = renderControls ? (
 			<Header>
 				<Box flex={true}
@@ -78,6 +79,7 @@ class About extends Component {
 					direction='row'
 					responsive={false}>
 						<Button icon={<Edit />}
+							style={btnStyle} 
 							label='Edit'
 							primary={true}
 							onClick={() => this._openEdit()} />
