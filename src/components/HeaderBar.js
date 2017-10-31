@@ -172,14 +172,14 @@ class HeaderBar extends Component {
 					direction='row'
 					responsive={false}
 					pad={{ between: 'small' }} >
-					<Box margin='small' size={{ width: 'medium' }} >
+					<Box margin='medium' size={{ width: 'medium' }} >
 						<Search inline={true}
 							fill={true}
 							size='medium'
 							placeHolder='search'
 							dropAlign={{"right": "right"}} />
 					</Box>
-					<Box direction='row' pad={{between: 'small' }} margin='small' >
+					<Box direction='row' pad={{between: 'small' }} margin='medium' >
 						{buttons}
 					</Box>
 				</Box>
