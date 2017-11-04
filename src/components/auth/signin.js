@@ -39,7 +39,7 @@ class Signin extends Component {
 	render() {
 		return (
 			<Box justify='center' align='center' full={true} >
-				<LoginForm align='center' title='Log In'
+				<LoginForm align='center' title='Log In' usernameType='text'
 					onSubmit={(login) => this._handleFormSubmit(login)} />
 				{this.renderAlert()}
 			</Box>

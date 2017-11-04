@@ -138,7 +138,7 @@ export function pushTrackNames(userId, { name, imagename, filename }) {
 	}
 }
 
-// dispatch(pushTrackNames(userId, { name, imagename: '', filename }));
+// TODO: If there is no image, don't fire imageUpload api
 export function uploadTrack(userId, name, image, file) {
 	return function(dispatch) {
 		let filename = '';

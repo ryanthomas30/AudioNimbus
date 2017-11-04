@@ -79,14 +79,14 @@ class Tracks extends Component {
 									Upload Track
 								</Heading>
 							</Header>
+							<FormField label='Upload Track'>
+								<input type="file" accept="audio/*" onChange={ (e) => this._handleFileChange(e) }/>
+							</FormField>
 							<FormField label='Track Name'>
 								<TextInput defaultValue={name} onDOMChange={ (e) => this._handleNameChange(e) } />
 							</FormField>
 							<FormField label='Upload Track Image'>
 								<input type="file" accept="image/*" onChange={ (e) => this._handleImageChange(e) }/>
-							</FormField>
-							<FormField label='Upload Track'>
-								<input type="file" accept="audio/*" onChange={ (e) => this._handleFileChange(e) }/>
 							</FormField>
 							<Footer pad={{vertical: 'medium'}}>
 								<Button label='Submit' primary={true} onClick={ () => this._submitForm() } />
