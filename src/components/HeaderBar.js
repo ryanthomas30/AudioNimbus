@@ -166,7 +166,7 @@ class HeaderBar extends Component {
 				{signInLayer}
 				{signUpLayer}
 				{signOutLayer}
-				<Button icon={<Image src={logo} role='presentation' />} href= '/' />
+				<Button icon={<Image src={logo} role='presentation' />} href='/' />
 				<Box flex={true}
 					justify='end'
 					direction='row'
