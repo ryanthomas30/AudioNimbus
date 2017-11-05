@@ -31,9 +31,9 @@ class LandingPage extends Component {
 						full={true} />}
 						size='large'
 						style={{ width: window.innerWidth }}>
-						<Headline margin='none' align='center' strong={true} size='large' style={{ color: 'white' }} >
-							AudioNimbus
-						</Headline>
+						<Box align='center' >
+							<Image size='large' src='title-white.png' />
+						</Box>
 					</Hero>
 					<Section pad='none'
 						justify='center'

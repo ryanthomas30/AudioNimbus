@@ -17,6 +17,8 @@ class Tracks extends Component {
 		super(props);
 
 		this.state = { name: '', image: '', file: '', layerOn: false };
+
+		this._submitComment = this._submitComment.bind(this);
 	}
 
 	_closeUpload() {
@@ -50,9 +52,14 @@ class Tracks extends Component {
 		//location.reload();
 	}
 
+	_submitComment(userId, trackId, comment) {
+		const { postComment } = this.props;
+		postComment(userId, trackId, comment);
+	}
+
 	render() {
-		const { songs, layerOn } = this.state;
-		const { renderControls, tracks, userId, getTracks, uploadTrack } = this.props;
+		const { layerOn } = this.state;
+		const { renderControls, tracks, userId } = this.props;
 		const noSongsLabel = renderControls ? 'You have no songs.' : 'No songs to display.';
 		const uploadButton = renderControls ? (
 			<Box justify='center' >
@@ -97,9 +104,10 @@ class Tracks extends Component {
 		const abc = tracks ? tracks[0] : false;
 		let trackList = abc ?
 			tracks.map((track, i) => {
-				let { filename, imagename, name } = track;
+				let { filename, imagename, name, _id, comments } = track;
 				return(
-					<AudioPlayer filename={filename} imagename={imagename} name={name} key={i} />
+					<AudioPlayer filename={filename} imagename={imagename} name={name} key={i}
+						trackId={_id} userId={userId} comments={comments} submitComment={this._submitComment} />
 				);
 			}) : (
 				<Box>

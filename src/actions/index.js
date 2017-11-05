@@ -171,3 +171,19 @@ export function uploadTrack(userId, name, image, file) {
 			});
 	}
 }
+
+export function postComment(userId, trackId, comment) {
+	return function(dispatch) {
+		console.log(userId);
+		console.log(trackId);
+		console.log(comment);
+		axios.post(`${API_ROOT}postComment/${userId}/${trackId}`, { comment })
+			.then((response) => {
+				dispatch(getTracks(userId));
+				//location.reload();
+			})
+			.catch(error => {
+				console.log(error.response.data);
+			});
+	}
+}
