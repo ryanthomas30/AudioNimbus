@@ -10,10 +10,18 @@ import { API_ROOT } from '../actions/api-config';
 
 class AudioPlayer extends Component {
 
+	_submitComment(userId, trackId, comment) {
+		const { submitComment } = this.props;
+		// Found something other than a space or line break
+		if (/\S/.test(comment)) {
+			submitComment(userId, trackId, comment);
+		}
+	}
+
 
 
 	render() {
-		const { name, imagename, filename, trackId, submitComment, userId, comments } = this.props;
+		const { name, imagename, filename, trackId, userId, comments } = this.props;
 		const imageURL = imagename ? `${API_ROOT}files/${imagename}` : 'http://lorempixel.com/500/500/abstract';
 		const songURL = `${API_ROOT}files/${filename}`;
 		const songObj = {
@@ -23,8 +31,6 @@ class AudioPlayer extends Component {
 			comments: []
 		}
 		const playList=[songObj];
-		const mockData = ['This song is bad', 'Please quit music', 'Stop playing please', 'Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.'];
-		console
 		const renderComments = comments.map((comment, i) => {
 			return(
 				<ListItem justify='between' pad='small' separator='bottom' key={i} >
@@ -34,21 +40,22 @@ class AudioPlayer extends Component {
 				</ListItem>
 			);
 		});
+		const playerWidth = 1100;
 		return(
 			<Box>
 				<Box align='center' >
 					<Audio
-						width={1100}
+						width={playerWidth}
 						fullPlayer={true}
 						color="#865cd6"
 						playlist={playList}
 						comment={true}
-						onCommentSubmit={comment => submitComment(userId, trackId, comment)}
+						onCommentSubmit={comment => this._submitComment(userId, trackId, comment)}
 						style={{
 							boxShadow: '0px 2px 6px rgba(0, 0, 0, 0.28)',
 						}} />
 				</Box>
-				<Box style={{ maxWidth: '1100' }} >
+				<Box style={{ maxWidth: `${playerWidth}px` }} >
 					<Accordion >
 						<AccordionPanel heading='Comments'  >
 							<List>

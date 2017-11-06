@@ -1,7 +1,6 @@
 import React, {Component} from 'react';
 import App from 'grommet/components/App';
 import HeaderBar from './components/HeaderBar';
-import Box from 'grommet/components/Box';
 import Article from 'grommet/components/Article';
 import Profile from './components/Profile';
 import LandingPage from './components/LandingPage';
