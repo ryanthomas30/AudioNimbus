@@ -40,7 +40,7 @@ class AudioPlayer extends Component {
 				</ListItem>
 			);
 		});
-		const playerWidth = 1100;
+		const playerWidth = 1300;
 		return(
 			<Box>
 				<Box align='center' >
