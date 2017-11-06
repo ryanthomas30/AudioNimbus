@@ -126,11 +126,7 @@ export function pushTrackNames(userId, { name, imagename, filename }) {
 	return function(dispatch) {
 	axios.post(`${API_ROOT}uploadTrack/${userId}`, { name, imagename, filename })
 		.then((response) => {
-			dispatch({
-			 type: GET_TRACKS,
-			 payload: response.data.tracks
-			})
-			location.reload();
+			dispatch(getTracks(userId));
 		})
 		.catch(error => {
 			console.log(error.response.data);
