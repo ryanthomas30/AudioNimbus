@@ -107,7 +107,7 @@ class Signup extends Component {
 						Create An Account
 					</Heading>
 				</Header>
-				<FormField label='Email' error={email} >
+				<FormField label='Username' error={email} >
 					<TextInput onDOMChange={(e) => this._handleEmailChange(e)} />
 				</FormField>
 				<FormField label='Password' error={password} >

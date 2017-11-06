@@ -28,7 +28,7 @@ class Profile extends Component {
 	}
 
 	render () {
-		const { userId, about, updateAbout, getAbout, tracks, uploadTrack, getTracks } = this.props;
+		const { userId, about, updateAbout, getAbout, tracks, uploadTrack, getTracks, postComment } = this.props;
 		const { routeId } = this.props.match.params;
 		const renderControls = routeId === userId;
 		let imageURL = 'http://lorempixel.com/1920/1080/abstract';
@@ -46,7 +46,7 @@ class Profile extends Component {
 				<Tabs justify='start'>
 					<Tab title='Tracks'>
 						<Tracks renderControls={renderControls} tracks={tracks} userId={userId}
-						 	getTracks={getTracks} uploadTrack={uploadTrack} />
+						 	getTracks={getTracks} uploadTrack={uploadTrack} postComment={postComment} />
 					</Tab>
 					<Tab title='About'>
 						<About renderControls={renderControls} updateAbout={updateAbout}

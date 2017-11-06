@@ -3,6 +3,7 @@ import { withRouter } from 'react-router-dom';
 import Header from 'grommet/components/Header';
 import Box from 'grommet/components/Box';
 import Button from 'grommet/components/Button';
+import Anchor from 'grommet/components/Anchor';
 import Layer from 'grommet/components/Layer';
 import Label from 'grommet/components/Label';
 import Search from 'grommet/components/Search';
@@ -14,6 +15,7 @@ import Heading from 'grommet/components/Heading';
 import Footer from 'grommet/components/Footer';
 import TextInput from 'grommet/components/TextInput';
 import Signup from './auth/signup';
+import UserIcon from 'grommet/components/icons/base/User';
 import * as actions from '../actions';
 import { connect } from 'react-redux';
 
@@ -94,6 +96,7 @@ class HeaderBar extends Component {
 	}
 
 	render() {
+		const { userId } = this.props;
 		const logo = '../full-logo.png';
 		const addLayer = this.state.uploadOn ?
 			<Layer closer={true}
@@ -107,14 +110,14 @@ class HeaderBar extends Component {
 									Upload Track
 								</Heading>
 							</Header>
+							<FormField label='Upload Track'>
+								<input type="file" accept="audio/*" onChange={ (e) => this._handleFileChange(e) }/>
+							</FormField>
 							<FormField label='Track Name'>
 								<TextInput defaultValue={name} onDOMChange={ (e) => this._handleNameChange(e) } />
 							</FormField>
 							<FormField label='Upload Track Image'>
 								<input type="file" accept="image/*" onChange={ (e) => this._handleImageChange(e) }/>
-							</FormField>
-							<FormField label='Upload Track'>
-								<input type="file" accept="audio/*" onChange={ (e) => this._handleFileChange(e) }/>
 							</FormField>
 							<Footer pad={{vertical: 'medium'}}>
 								<Button label='Submit' primary={true} onClick={ () => this._submitForm() } />
@@ -153,9 +156,11 @@ class HeaderBar extends Component {
 				</Box>
 			</Layer>
 		) : '';
+		const profileUri = `/profile/${userId}`;
 		const buttons = this.props.authenticated ? [
+			<Anchor icon={<UserIcon />} href={profileUri} key={2} />,
 			<Button label='Upload Track' primary={true} key={1} onClick={() => this._openUpload()} />,
-			<Button label='Log Out' onClick={() => this._openSignOut()} key={2} />
+			<Button label='Log Out' onClick={() => this._openSignOut()} key={3} />
 		] : [
 			<Button label='Log In' primary={true} onClick={() => this._openSignIn()} key={1} />,
 			<Button label='Sign Up' onClick={() => this._openSignUp()} key={2} />
@@ -177,7 +182,7 @@ class HeaderBar extends Component {
 							fill={true}
 							size='medium'
 							placeHolder='search'
-							dropAlign={{"right": "right"}} />
+							/>
 					</Box>
 					<Box direction='row' pad={{between: 'small' }} margin='medium' >
 						{buttons}

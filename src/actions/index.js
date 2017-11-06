@@ -126,11 +126,7 @@ export function pushTrackNames(userId, { name, imagename, filename }) {
 	return function(dispatch) {
 	axios.post(`${API_ROOT}uploadTrack/${userId}`, { name, imagename, filename })
 		.then((response) => {
-			dispatch({
-			 type: GET_TRACKS,
-			 payload: response.data.tracks
-			})
-			location.reload();
+			dispatch(getTracks(userId));
 		})
 		.catch(error => {
 			console.log(error.response.data);
@@ -138,7 +134,7 @@ export function pushTrackNames(userId, { name, imagename, filename }) {
 	}
 }
 
-// dispatch(pushTrackNames(userId, { name, imagename: '', filename }));
+// TODO: If there is no image, don't fire imageUpload api
 export function uploadTrack(userId, name, image, file) {
 	return function(dispatch) {
 		let filename = '';
@@ -165,6 +161,22 @@ export function uploadTrack(userId, name, image, file) {
 					.catch(error => {
 
 					});
+			})
+			.catch(error => {
+				console.log(error.response.data);
+			});
+	}
+}
+
+export function postComment(userId, trackId, comment) {
+	return function(dispatch) {
+		console.log(userId);
+		console.log(trackId);
+		console.log(comment);
+		axios.post(`${API_ROOT}postComment/${userId}/${trackId}`, { comment })
+			.then((response) => {
+				dispatch(getTracks(userId));
+				//location.reload();
 			})
 			.catch(error => {
 				console.log(error.response.data);

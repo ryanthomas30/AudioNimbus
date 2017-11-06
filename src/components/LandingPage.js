@@ -1,13 +1,10 @@
 import React, { Component } from 'react';
-import Header from 'grommet/components/Header';
 import Article from 'grommet/components/Article';
 import Anchor from 'grommet/components/Anchor';
 import Box from 'grommet/components/Box';
 import Menu from 'grommet/components/Menu';
-import Title from 'grommet/components/Title';
 import Image from 'grommet/components/Image';
 import Hero from 'grommet/components/Hero';
-import Label from 'grommet/components/Label';
 import Section from 'grommet/components/Section';
 import Headline from 'grommet/components/Headline';
 import Paragraph from 'grommet/components/Paragraph';
@@ -31,9 +28,9 @@ class LandingPage extends Component {
 						full={true} />}
 						size='large'
 						style={{ width: window.innerWidth }}>
-						<Headline margin='none' align='center' strong={true} size='large' style={{ color: 'white' }} >
-							AudioNimbus
-						</Headline>
+						<Box align='center' >
+							<Image size='large' src='title-white.png' />
+						</Box>
 					</Hero>
 					<Section pad='none'
 						justify='center'

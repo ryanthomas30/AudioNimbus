@@ -9,7 +9,8 @@ const userSchema = new Schema({
 	about: { name: { type: String }, bio: { type: String },
 		location: { type: String }, image: { type: String }},
 	tracks: [{ name: { type: String }, imagename: { type: String },
-		filename: { type: String }}]
+		filename: { type: String }, comments: [] }
+	]
 });
 
 // On Save Hook, encrypt password

@@ -17,6 +17,8 @@ class Tracks extends Component {
 		super(props);
 
 		this.state = { name: '', image: '', file: '', layerOn: false };
+
+		this._submitComment = this._submitComment.bind(this);
 	}
 
 	_closeUpload() {
@@ -50,9 +52,14 @@ class Tracks extends Component {
 		//location.reload();
 	}
 
+	_submitComment(userId, trackId, comment) {
+		const { postComment } = this.props;
+		postComment(userId, trackId, comment);
+	}
+
 	render() {
-		const { songs, layerOn } = this.state;
-		const { renderControls, tracks, userId, getTracks, uploadTrack } = this.props;
+		const { layerOn } = this.state;
+		const { renderControls, tracks, userId } = this.props;
 		const noSongsLabel = renderControls ? 'You have no songs.' : 'No songs to display.';
 		const uploadButton = renderControls ? (
 			<Box justify='center' >
@@ -79,14 +86,14 @@ class Tracks extends Component {
 									Upload Track
 								</Heading>
 							</Header>
+							<FormField label='Upload Track'>
+								<input type="file" accept="audio/*" onChange={ (e) => this._handleFileChange(e) }/>
+							</FormField>
 							<FormField label='Track Name'>
 								<TextInput defaultValue={name} onDOMChange={ (e) => this._handleNameChange(e) } />
 							</FormField>
 							<FormField label='Upload Track Image'>
 								<input type="file" accept="image/*" onChange={ (e) => this._handleImageChange(e) }/>
-							</FormField>
-							<FormField label='Upload Track'>
-								<input type="file" accept="audio/*" onChange={ (e) => this._handleFileChange(e) }/>
 							</FormField>
 							<Footer pad={{vertical: 'medium'}}>
 								<Button label='Submit' primary={true} onClick={ () => this._submitForm() } />
@@ -97,9 +104,10 @@ class Tracks extends Component {
 		const abc = tracks ? tracks[0] : false;
 		let trackList = abc ?
 			tracks.map((track, i) => {
-				let { filename, imagename, name } = track;
+				let { filename, imagename, name, _id, comments } = track;
 				return(
-					<AudioPlayer filename={filename} imagename={imagename} name={name} key={i} />
+					<AudioPlayer filename={filename} imagename={imagename} name={name} key={i}
+						trackId={_id} userId={userId} comments={comments} submitComment={this._submitComment} />
 				);
 			}) : (
 				<Box>
