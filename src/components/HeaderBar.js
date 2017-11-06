@@ -171,20 +171,20 @@ class HeaderBar extends Component {
 				{signInLayer}
 				{signUpLayer}
 				{signOutLayer}
-				<Image src={logo} role='presentation' />
+				<Button icon={<Image src={logo} role='presentation' />} href='/' />
 				<Box flex={true}
 					justify='end'
 					direction='row'
 					responsive={false}
 					pad={{ between: 'small' }} >
-					<Box margin='small' size={{ width: 'large' }} >
+					<Box margin='medium' size={{ width: 'medium' }} >
 						<Search inline={true}
 							fill={true}
 							size='medium'
 							placeHolder='search'
 							/>
 					</Box>
-					<Box direction='row' pad={{between: 'small' }} margin='small' >
+					<Box direction='row' pad={{between: 'small' }} margin='medium' >
 						{buttons}
 					</Box>
 				</Box>
