@@ -168,14 +168,11 @@ export function uploadTrack(userId, name, image, file) {
 	}
 }
 
-export function postComment(userId, trackId, comment) {
+export function postComment(routeId, trackId, comment) {
 	return function(dispatch) {
-		console.log(userId);
-		console.log(trackId);
-		console.log(comment);
-		axios.post(`${API_ROOT}postComment/${userId}/${trackId}`, { comment })
+		axios.post(`${API_ROOT}postComment/${routeId}/${trackId}`, { comment })
 			.then((response) => {
-				dispatch(getTracks(userId));
+				dispatch(getTracks(routeId));
 				//location.reload();
 			})
 			.catch(error => {

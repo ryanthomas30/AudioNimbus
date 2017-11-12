@@ -52,14 +52,14 @@ class Tracks extends Component {
 		//location.reload();
 	}
 
-	_submitComment(userId, trackId, comment) {
+	_submitComment(routeId, trackId, comment) {
 		const { postComment } = this.props;
-		postComment(userId, trackId, comment);
+		postComment(routeId, trackId, comment);
 	}
 
 	render() {
 		const { layerOn } = this.state;
-		const { renderControls, tracks, userId } = this.props;
+		const { renderControls, tracks, routeId } = this.props;
 		const noSongsLabel = renderControls ? 'You have no songs.' : 'No songs to display.';
 		const uploadButton = renderControls ? (
 			<Box justify='center' >
@@ -107,7 +107,7 @@ class Tracks extends Component {
 				let { filename, imagename, name, _id, comments } = track;
 				return(
 					<AudioPlayer filename={filename} imagename={imagename} name={name} key={i}
-						trackId={_id} userId={userId} comments={comments} submitComment={this._submitComment} />
+						trackId={_id} routeId={routeId} comments={comments} submitComment={this._submitComment} />
 				);
 			}) : (
 				<Box>
