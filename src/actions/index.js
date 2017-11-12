@@ -151,11 +151,9 @@ export function uploadTrack(userId, name, image, file) {
 		axios.post(`${API_ROOT}upload/${userId}`, formData, config)
 			.then((response) => {
 				filename = response.data.filename;
-				console.log('filename: ' + filename);
 				axios.post(`${API_ROOT}uploadImage/${userId}`, imageData, config)
 					.then((response) => {
 						imagename = response.data.imagename;
-						console.log('imagename: ' + imagename);
 						dispatch(pushTrackNames(userId, { name, imagename, filename }));
 					})
 					.catch(error => {
