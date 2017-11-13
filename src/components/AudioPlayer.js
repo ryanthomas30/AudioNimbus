@@ -10,18 +10,18 @@ import { API_ROOT } from '../actions/api-config';
 
 class AudioPlayer extends Component {
 
-	_submitComment(userId, trackId, comment) {
+	_submitComment(routeId, trackId, comment) {
 		const { submitComment } = this.props;
 		// Found something other than a space or line break
 		if (/\S/.test(comment)) {
-			submitComment(userId, trackId, comment);
+			submitComment(routeId, trackId, comment);
 		}
 	}
 
 
 
 	render() {
-		const { name, imagename, filename, trackId, userId, comments } = this.props;
+		const { name, imagename, filename, trackId, routeId, comments } = this.props;
 		const imageURL = imagename ? `${API_ROOT}files/${imagename}` : 'http://lorempixel.com/500/500/abstract';
 		const songURL = `${API_ROOT}files/${filename}`;
 		const songObj = {
@@ -50,7 +50,7 @@ class AudioPlayer extends Component {
 						color="#865cd6"
 						playlist={playList}
 						comment={true}
-						onCommentSubmit={comment => this._submitComment(userId, trackId, comment)}
+						onCommentSubmit={comment => this._submitComment(routeId, trackId, comment)}
 						style={{
 							boxShadow: '0px 2px 6px rgba(0, 0, 0, 0.28)',
 						}} />
