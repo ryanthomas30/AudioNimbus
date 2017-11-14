@@ -47,7 +47,7 @@ class Profile extends Component {
 					size='small' />
 				<Tabs justify='start'>
 					<Tab title='Tracks'>
-						<Tracks renderControls={renderControls} tracks={tracks} routeId={routeId}
+						<Tracks renderControls={renderControls} tracks={tracks} userId={userId} routeId={routeId}
 						 	getTracks={getTracks} uploadTrack={uploadTrack} postComment={postComment} />
 					</Tab>
 					<Tab title='About'>
