@@ -59,7 +59,6 @@ exports.uploadTrack = function(req, res, next) {
 exports.postComment = function(req, res, next) {
 	const { trackId, userId } = req.params;
 	const { comment } = req.body;
-	const update = { comment };
 	console.log('userId: ' + userId);
 	console.log("comment: " + comment);
 	User.findById(userId, function(err, user) {
