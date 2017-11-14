@@ -45,11 +45,9 @@ class Tracks extends Component {
 
 	_submitForm() {
 		this._closeUpload();
-		const { userId, uploadTrack, getTracks } = this.props;
+		const { userId, uploadTrack } = this.props;
 		const { name, image, file } = this.state
 		uploadTrack(userId, name, image, file);
-		getTracks(userId);
-		//location.reload();
 	}
 
 	_submitComment(routeId, trackId, comment) {

@@ -1,6 +1,7 @@
 import axios from 'axios';
 import { API_ROOT } from './api-config';
-import { AUTH_USER, UNAUTH_USER, AUTH_ERROR, GET_ID, GET_ABOUT, GET_TRACKS } from './types';
+import { AUTH_USER, UNAUTH_USER, AUTH_ERROR, GET_ID, GET_ABOUT, GET_TRACKS,
+	GET_USERS } from './types';
 
 
 export function signinUser({ email, password }, callback) {
@@ -126,6 +127,7 @@ export function pushTrackNames(userId, { name, imagename, filename }) {
 	return function(dispatch) {
 	axios.post(`${API_ROOT}uploadTrack/${userId}`, { name, imagename, filename })
 		.then((response) => {
+			// If user is on another route, go to user's route
 			dispatch(getTracks(userId));
 		})
 		.catch(error => {
@@ -172,6 +174,21 @@ export function postComment(routeId, trackId, comment) {
 			.then((response) => {
 				dispatch(getTracks(routeId));
 				//location.reload();
+			})
+			.catch(error => {
+				console.log(error.response.data);
+			});
+	}
+}
+
+export function getUsers(search) {
+	return function(dispatch) {
+		axios.get(`${API_ROOT}getUsers/${search}`)
+			.then((response) => {
+				dispatch({
+					type: GET_USERS,
+					payload: response.data.users
+				});
 			})
 			.catch(error => {
 				console.log(error.response.data);
