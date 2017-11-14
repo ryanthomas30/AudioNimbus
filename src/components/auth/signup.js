@@ -62,7 +62,7 @@ class Signup extends Component {
 	// Checks if any fields are empty and if passwords match
 
 		if (!this.state.inputEmail) {
-			errors.email = 'Please enter an email';
+			errors.email = 'Please enter a username';
 		}
 
 		if (this.state.inputPassword !== this.state.inputConfirmPassword) {

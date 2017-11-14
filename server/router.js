@@ -28,6 +28,7 @@ module.exports = function(app) {
 	app.get('/getTracks/:userId', Profile.getTracks);
 	app.post('/uploadTrack/:userId', Profile.uploadTrack);
 	app.post('/postComment/:userId/:trackId', Profile.postComment);
+	app.get('/getUsers/:search', Profile.getUsers);
 
 	// Make sure there is a DB connection before setting up gridfs-stream
 	// There's probably a better way to write this
