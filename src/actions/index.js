@@ -79,7 +79,8 @@ export function getUserId() {
 
 export function updateAbout(userId, name, bio, location, image, callback) {
 	return function(dispatch) {
-		axios.put(`${API_ROOT}putAbout/${userId}`, { name, bio, location, image })
+		axios.put(`${API_ROOT}putAbout/${userId}`, { name, bio, location, image },
+			{ headers: { authorization: localStorage.getItem('token') }})
 			.then(response => {
 				callback(true);
 				dispatch({
@@ -125,7 +126,8 @@ export function getTracks(userId) {
 
 export function pushTrackNames(userId, { name, imagename, filename }) {
 	return function(dispatch) {
-	axios.post(`${API_ROOT}uploadTrack/${userId}`, { name, imagename, filename })
+	axios.post(`${API_ROOT}uploadTrack/${userId}`, { name, imagename, filename },
+		{ headers: { authorization: localStorage.getItem('token') }})
 		.then((response) => {
 			// If user is on another route, go to user's route
 			dispatch(getTracks(userId));
@@ -147,7 +149,8 @@ export function uploadTrack(userId, name, image, file) {
 		imageData.append('image', image);
 		const config = {
 			headers: {
-				'content-type': 'multipart/form-data'
+				'content-type': 'multipart/form-data',
+				authorization: localStorage.getItem('token')
 			}
 		}
 		axios.post(`${API_ROOT}upload/${userId}`, formData, config)
@@ -159,7 +162,7 @@ export function uploadTrack(userId, name, image, file) {
 						dispatch(pushTrackNames(userId, { name, imagename, filename }));
 					})
 					.catch(error => {
-
+						console.log(error.response.data)
 					});
 			})
 			.catch(error => {
