@@ -27,7 +27,7 @@ class LandingPage extends Component {
 						margin={{ top: 'small' }}
 						align='center'
 						style={{ width: window.innerWidth }} >
-						<Hero background={<Image src={'http://blueprintmagazine.ca/wp-content/uploads/2012/07/cover1.jpg'}
+						<Hero background={<Image src={'landingpage-image.jpg'}
 							fit='cover'
 							full={true} />}
 							size='large'
