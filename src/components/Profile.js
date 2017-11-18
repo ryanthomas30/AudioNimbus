@@ -32,7 +32,7 @@ class Profile extends Component {
 		const { userId, about, updateAbout, getAbout, tracks, uploadTrack, getTracks, postComment } = this.props;
 		const { routeId } = this.props.match.params;
 		const renderControls = routeId === userId;
-		let imageURL = 'http://lorempixel.com/1920/1080/abstract';
+		let imageURL = 'https://loremflickr.com/1920/1080/shapes';
 		if(about) {
 			if(about.image) {
 				imageURL = about.image;
