@@ -22,7 +22,7 @@ class AudioPlayer extends Component {
 
 	render() {
 		const { name, imagename, filename, trackId, routeId, comments } = this.props;
-		const imageURL = imagename ? `${API_ROOT}files/${imagename}` : 'http://lorempixel.com/500/500/abstract';
+		const imageURL = imagename ? `${API_ROOT}files/${imagename}` : 'https://loremflickr.com/500/500/abstract';
 		const songURL = `${API_ROOT}files/${filename}`;
 		const songObj = {
 			name: name, // song name
