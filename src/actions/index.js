@@ -89,6 +89,7 @@ export function updateAbout(userId, name, bio, location, image, callback) {
 				});
 			})
 			.catch(error => {
+				console.log(error.response.data);
 				callback(false);
 			});
 	}

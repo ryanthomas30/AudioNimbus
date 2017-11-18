@@ -15,7 +15,7 @@ class Signin extends Component {
 	_handleFormSubmit(login) {
 		// Need to do somethign to log user in
 		let { password } = login;
-		let email = login.username;
+		let email = login.username.toLowerCase();
 		this.props.signinUser({ email, password }, (success, userId) => {
 			if (success) {
 				this.props.closeSignIn();
