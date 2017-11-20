@@ -3,6 +3,7 @@ import { withRouter } from 'react-router-dom';
 import Header from 'grommet/components/Header';
 import Box from 'grommet/components/Box';
 import Button from 'grommet/components/Button';
+import Anchor from 'grommet/components/Anchor';
 import Layer from 'grommet/components/Layer';
 import Label from 'grommet/components/Label';
 import Search from 'grommet/components/Search';
@@ -14,6 +15,10 @@ import Heading from 'grommet/components/Heading';
 import Footer from 'grommet/components/Footer';
 import TextInput from 'grommet/components/TextInput';
 import Signup from './auth/signup';
+import UserIcon from 'grommet/components/icons/base/User';
+import CloudUploadIcon from 'grommet/components/icons/base/CloudUpload';
+import LogoutIcon from 'grommet/components/icons/base/Logout';
+import LoginIcon from 'grommet/components/icons/base/Login';
 import * as actions from '../actions';
 import { connect } from 'react-redux';
 
@@ -86,14 +91,29 @@ class HeaderBar extends Component {
 
 	_submitForm() {
 		this._closeUpload();
-		const { userId, uploadTrack, getTracks } = this.props;
+		const { userId, uploadTrack, routesMatch, history } = this.props;
 		const { name, image, file } = this.state
+		if (!routesMatch) {
+			history.push(`/profile/${userId}`);
+			location.reload();
+		}
 		uploadTrack(userId, name, image, file);
-		getTracks(userId);
-		// location.reload();
+	}
+
+	_onSearch(event) {
+		let search = event.target.value;
+		const { getUsers } = this.props;
+		getUsers(search);
+	}
+
+	_onSuggestionSelect(selectObj, selected) {
+		// console.log(selectObj);
+		this.props.history.replace(`/profile/${selectObj.suggestion._id}`);
+		location.reload();
 	}
 
 	render() {
+		const { userId, userList } = this.props;
 		const logo = '../full-logo.png';
 		const addLayer = this.state.uploadOn ?
 			<Layer closer={true}
@@ -107,14 +127,14 @@ class HeaderBar extends Component {
 									Upload Track
 								</Heading>
 							</Header>
+							<FormField label='Upload Track'>
+								<input type="file" accept="audio/*" onChange={ (e) => this._handleFileChange(e) }/>
+							</FormField>
 							<FormField label='Track Name'>
 								<TextInput defaultValue={name} onDOMChange={ (e) => this._handleNameChange(e) } />
 							</FormField>
 							<FormField label='Upload Track Image'>
 								<input type="file" accept="image/*" onChange={ (e) => this._handleImageChange(e) }/>
-							</FormField>
-							<FormField label='Upload Track'>
-								<input type="file" accept="audio/*" onChange={ (e) => this._handleFileChange(e) }/>
 							</FormField>
 							<Footer pad={{vertical: 'medium'}}>
 								<Button label='Submit' primary={true} onClick={ () => this._submitForm() } />
@@ -153,11 +173,13 @@ class HeaderBar extends Component {
 				</Box>
 			</Layer>
 		) : '';
+		const profileUri = `/profile/${userId}`;
 		const buttons = this.props.authenticated ? [
-			<Button label='Upload Track' primary={true} key={1} onClick={() => this._openUpload()} />,
-			<Button label='Log Out' onClick={() => this._openSignOut()} key={2} />
+			<Anchor icon={<UserIcon />} href={profileUri} key={1} />,
+			<Button label='Upload Track' icon={<CloudUploadIcon />} primary={true} key={2} onClick={() => this._openUpload()} />,
+			<Button label='Log Out' icon={<LogoutIcon />} onClick={() => this._openSignOut()} key={3} />
 		] : [
-			<Button label='Log In' primary={true} onClick={() => this._openSignIn()} key={1} />,
+			<Button label='Log In' icon={<LoginIcon />} primary={true} onClick={() => this._openSignIn()} key={1} />,
 			<Button label='Sign Up' onClick={() => this._openSignUp()} key={2} />
 		];
 		return(
@@ -166,20 +188,23 @@ class HeaderBar extends Component {
 				{signInLayer}
 				{signUpLayer}
 				{signOutLayer}
-				<Image src={logo} role='presentation' />
+				<Button icon={<Image src={logo} role='presentation' />} href='/' />
 				<Box flex={true}
 					justify='end'
 					direction='row'
 					responsive={false}
 					pad={{ between: 'small' }} >
-					<Box margin='small' size={{ width: 'medium' }} >
+					<Box margin='medium' size={{ width: 'medium' }} >
 						<Search inline={true}
 							fill={true}
 							size='medium'
 							placeHolder='search'
-							dropAlign={{"right": "right"}} />
+							onDOMChange={(e) => this._onSearch(e)}
+							suggestions={userList}
+							onSelect={(selectObj ,selected) => this._onSuggestionSelect(selectObj, selected)}
+							/>
 					</Box>
-					<Box direction='row' pad={{between: 'small' }} margin='small' >
+					<Box direction='row' pad={{between: 'small' }} margin='medium' align='center' >
 						{buttons}
 					</Box>
 				</Box>
@@ -191,7 +216,8 @@ class HeaderBar extends Component {
 function mapStateToProps(state) {
 	return {
 		authenticated: state.auth.authenticated,
-		userId: state.auth.userId
+		userId: state.auth.userId,
+		userList: state.profile.users
 	};
 }
 

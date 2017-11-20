@@ -23,10 +23,12 @@ const multer = Multer({
 module.exports = function(app) {
 	app.post('/signin', requireSignin, Authentication.signin);
 	app.post('/signup', Authentication.signup);
-	app.put('/putAbout/:userId', Profile.putAbout);
+	app.put('/putAbout/:userId', requireAuth, Profile.putAbout);
 	app.get('/getAbout/:userId', Profile.getAbout);
 	app.get('/getTracks/:userId', Profile.getTracks);
-	app.post('/uploadTrack/:userId', Profile.uploadTrack);
+	app.post('/uploadTrack/:userId', requireAuth, Profile.uploadTrack);
+	app.post('/postComment/:userId/:trackId', Profile.postComment);
+	app.get('/getUsers/:search', Profile.getUsers);
 
 	// Make sure there is a DB connection before setting up gridfs-stream
 	// There's probably a better way to write this
@@ -36,7 +38,7 @@ module.exports = function(app) {
 	});
 
 	// TODO: Extract controller logic out of this and just keep the route
-	app.post('/upload/:userId', multer.single('file'), (req, res, next) => {
+	app.post('/upload/:userId', multer.single('file'), requireAuth, (req, res, next) => {
 		console.log('req.file', req.file)
 		const { file } = req;
 		if (!file) {

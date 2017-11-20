@@ -15,7 +15,7 @@ class Signin extends Component {
 	_handleFormSubmit(login) {
 		// Need to do somethign to log user in
 		let { password } = login;
-		let email = login.username;
+		let email = login.username.toLowerCase();
 		this.props.signinUser({ email, password }, (success, userId) => {
 			if (success) {
 				this.props.closeSignIn();
@@ -39,7 +39,7 @@ class Signin extends Component {
 	render() {
 		return (
 			<Box justify='center' align='center' full={true} >
-				<LoginForm align='center' title='Log In'
+				<LoginForm align='center' title='Log In' usernameType='text'
 					onSubmit={(login) => this._handleFormSubmit(login)} />
 				{this.renderAlert()}
 			</Box>

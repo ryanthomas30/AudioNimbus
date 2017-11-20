@@ -1,12 +1,13 @@
-import { GET_ABOUT, GET_TRACKS } from '../actions/types';
+import { GET_ABOUT, GET_TRACKS, GET_USERS } from '../actions/types';
 
 export default function(state = {}, action) {
 	switch(action.type) {
 		case GET_ABOUT:
 			return { ...state, about: action.payload };
 		case GET_TRACKS:
-			console.log('tracks:' + action.payload);
-			return {...state, tracks: action.payload}
+			return { ...state, tracks: action.payload };
+		case GET_USERS:
+			return { ...state, users: action.payload };
 		default:
 			return state;
 	}

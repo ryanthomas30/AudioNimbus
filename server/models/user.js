@@ -5,11 +5,13 @@ const bcrypt = require('bcrypt-nodejs');
 // Define our model
 const userSchema = new Schema({
 	email: { type: String, unique: true, lowercase: true },
+	label: String,
 	password: String,
 	about: { name: { type: String }, bio: { type: String },
 		location: { type: String }, image: { type: String }},
 	tracks: [{ name: { type: String }, imagename: { type: String },
-		filename: { type: String }}]
+		filename: { type: String }, comments: [] }
+	]
 });
 
 // On Save Hook, encrypt password

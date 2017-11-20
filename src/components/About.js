@@ -71,6 +71,7 @@ class About extends Component {
 	render() {
 		const { layerOn } = this.state;
 		const { renderControls, about } = this.props;
+		const btnStyle = { margin: '.2em' };
 		const renderButton = renderControls ? (
 			<Header>
 				<Box flex={true}
@@ -78,6 +79,7 @@ class About extends Component {
 					direction='row'
 					responsive={false}>
 						<Button icon={<Edit />}
+							style={btnStyle}
 							label='Edit'
 							primary={true}
 							onClick={() => this._openEdit()} />
@@ -109,7 +111,7 @@ class About extends Component {
 								<input type="file" accept="image/*" onChange={ (e) => this._handleImageChange(e) }/>
 							</FormField>
 							<Footer pad={{vertical: 'medium'}}>
-								<Button label='Submit' primary={true} onClick={ () => this._submitForm() } />
+								<Button style={btnStyle} label='Submit' primary={true} onClick={ () => this._submitForm() } />
 							</Footer>
 					</Form>
 				</Box>

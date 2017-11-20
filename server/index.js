@@ -8,6 +8,10 @@ const app = express();
 const router = require('./router');
 const mongoose = require('mongoose');
 const cors = require('cors');
+var enforce = require('express-sslify');
+
+// Enforce HTTPS
+app.use(enforce.HTTPS({ trustProtoHeader: true }))
 
 // DB Setup
 mongoose.connect(process.env.MONGODB_URI);
