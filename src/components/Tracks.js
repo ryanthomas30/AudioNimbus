@@ -60,7 +60,7 @@ class Tracks extends Component {
 		const { renderControls, tracks, routeId } = this.props;
 		const noSongsLabel = renderControls ? 'You have no songs.' : 'No songs to display.';
 		const uploadButton = renderControls ? (
-			<Box justify='center' >
+			<Box justify='center' align='center' >
 				<Label align='center' >{noSongsLabel}</Label>
 				<Button icon={<Add />}
 					primary={true}
