@@ -99,8 +99,8 @@ class Tracks extends Component {
 					</Form>
 				</Box>
 			</Layer> : '';
-		const abc = tracks ? tracks[0] : false;
-		let trackList = abc ?
+		const tracksExist = tracks ? tracks[0] : false;
+		let trackList = tracksExist ?
 			tracks.map((track, i) => {
 				let { filename, imagename, name, _id, comments } = track;
 				return(
@@ -115,7 +115,7 @@ class Tracks extends Component {
 		return(
 			<Box justify='center' align='center' pad={{ between: 'large' }} margin={{ top: 'large', bottom: 'large' }} >
 				{addLayer}
-				<Box pad={{ between: 'large' }} >
+				<Box pad={{ between: 'large' }} style={{ width: '100%' }} >
 					{trackList}
 				</Box>
 			</Box>

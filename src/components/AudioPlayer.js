@@ -10,6 +10,16 @@ import { API_ROOT } from '../actions/api-config';
 
 class AudioPlayer extends Component {
 
+	constructor(props) {
+		super(props);
+
+		this.state = { width: 0 };
+	}
+
+	componentDidMount() {
+		this.setState({ width: document.getElementById('audioplayer').offsetWidth});
+	}
+
 	_submitComment(routeId, trackId, comment) {
 		const { submitComment } = this.props;
 		// Found something other than a space or line break
@@ -17,8 +27,6 @@ class AudioPlayer extends Component {
 			submitComment(routeId, trackId, comment);
 		}
 	}
-
-
 
 	render() {
 		const { name, imagename, filename, trackId, routeId, comments } = this.props;
@@ -40,22 +48,21 @@ class AudioPlayer extends Component {
 				</ListItem>
 			);
 		});
-		const playerWidth = 1300;
 		return(
-			<Box>
-				<Box align='center' >
+			<Box style={{ width: '100%' }} id='audioplayer' >
+				<Box align='center' style={{ width: '100%' }} >
 					<Audio
-						width={playerWidth}
+						width={this.state.width}
 						fullPlayer={true}
 						color="#865cd6"
 						playlist={playList}
 						comment={true}
 						onCommentSubmit={comment => this._submitComment(routeId, trackId, comment)}
 						style={{
-							boxShadow: '0px 2px 6px rgba(0, 0, 0, 0.28)',
+							boxShadow: '0px 2px 6px rgba(0, 0, 0, 0.28)'
 						}} />
 				</Box>
-				<Box style={{ maxWidth: `${playerWidth}px` }} >
+				<Box style={{ width: '100%' }} >
 					<Accordion >
 						<AccordionPanel heading='Comments'  >
 							<List>

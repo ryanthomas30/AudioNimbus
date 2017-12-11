@@ -6,6 +6,7 @@
 		<link rel="shortcut icon" href="%PUBLIC_URL%/favicon.ico">
 		<link rel="stylesheet" type="text/css" href="%PUBLIC_URL%/index.css">
 		<style>
+
 			.grommet button:not(.grommetux-button), .grommet button:not(.grommetux-button):not(.grommetux-button--box) {
 				color: inherit;
 				padding: inherit;
@@ -22,20 +23,33 @@
 				min-width: inherit;
 				max-width: inherit;
 			}
+
+			.grommet input:not(.grommetux-input), .grommet input:not(.grommetux-check-box__input), .grommet select, .grommet textarea {
+				padding: inherit;
+			}
+
 			.grommet input:not(.grommetux-input):focus, .grommet input:not(.grommetux-check-box__input):focus, .grommet select:focus, .grommet textarea:focus {
 				border-width: 1px;
     			border-color: #d9d9d9;
+				padding: 11px 23px;
 			}
-			.grommet input:not(.grommetux-input), .grommet input:not(.grommetux-check-box__input), .grommet select, .grommet textarea {
 
+			.grommetux-header .grommetux-search--inline .grommetux-search__input:not(:focus) {
+				border-width: 1px;
+    			border-color: #d9d9d9;
+				padding: 11px 23px;
 			}
+
 			.audioElements__commentInputContainer___2t_uA>form {
 				margin: 0px;
 			}
+
 			.grommet.grommetux-app--centered {
 				width: 100%;
-				max-width: 1300px;
+				max-width: 100%;
+				padding: 12px 48px;
 			}
+
  		</style>
 	<!--
 		Notice the use of %PUBLIC_URL% in the tag above.
