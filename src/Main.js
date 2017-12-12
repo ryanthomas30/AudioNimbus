@@ -8,6 +8,7 @@ import Article from 'grommet/components/Article';
 
 import Profile from './components/Profile';
 import LandingPage from './components/LandingPage';
+import CopyrightFooter from './components/CopyrightFooter';
 
 class Main extends Component {
 	render() {
@@ -18,6 +19,7 @@ class Main extends Component {
 						<Route path="/profile/:routeId" component={Profile} />
 						<Route exact path="/" component={LandingPage} />
 					</Switch>
+					<CopyrightFooter />
 				</Article>
 			</App>
 		);
