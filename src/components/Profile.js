@@ -1,14 +1,16 @@
 import React, { Component } from 'react';
+import * as actions from '../actions';
+import { connect } from 'react-redux';
+
 import Box from 'grommet/components/Box';
 import Hero from 'grommet/components/Hero';
 import Image from 'grommet/components/Image';
 import Tabs from 'grommet/components/Tabs';
 import Tab from 'grommet/components/Tab';
+
 import About from './About';
 import Tracks from './Tracks';
 import HeaderBar from './HeaderBar';
-import * as actions from '../actions';
-import { connect } from 'react-redux';
 
 class Profile extends Component {
 

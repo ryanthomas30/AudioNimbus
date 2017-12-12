@@ -1,16 +1,13 @@
 import React, { Component } from 'react';
-import Header from 'grommet/components/Header';
+
 import Box from 'grommet/components/Box';
 import Button from 'grommet/components/Button';
-import Heading from 'grommet/components/Heading';
 import Add from 'grommet/components/icons/base/Add';
-import Footer from 'grommet/components/Footer';
 import Layer from 'grommet/components/Layer';
 import Label from 'grommet/components/Label';
-import Form from 'grommet/components/Form';
-import FormField from 'grommet/components/FormField';
-import TextInput from 'grommet/components/TextInput';
+
 import AudioPlayer from './AudioPlayer';
+import UploadTrack from './UploadTrack';
 
 class Tracks extends Component {
 	constructor(props) {
@@ -19,41 +16,21 @@ class Tracks extends Component {
 		this.state = { name: '', image: '', file: '', layerOn: false };
 
 		this._submitComment = this._submitComment.bind(this);
+		this._closeUpload = this._closeUpload.bind(this);
 	}
 
 	_closeUpload() {
-		this.setState({ layerOn: false, name: '', image: '', file: '' });
+		this.setState({ layerOn: false });
 	}
 
 	_openUpload() {
 		this.setState({ layerOn: true });
 	}
 
-	_handleNameChange(event) {
-		this.setState({ name: event.target.value, image: this.state.image, file: this.state.file });
-	}
-
-	_handleImageChange(event) {
-		let image = event.target.files[0];
-		this.setState({ name: this.state.name, image: image, file: this.state.file });
-	}
-
-	_handleFileChange(event) {
-		let file = event.target.files[0];
-		this.setState({ name: this.state.name, image: this.state.image, file: file });
-	}
-
-	_submitForm() {
-		this._closeUpload();
-		const { userId, uploadTrack } = this.props;
-		const { name, image, file } = this.state
-		uploadTrack(userId, name, image, file);
-	}
-
 	_submitComment(routeId, trackId, comment) {
-		const { postComment } = this.props;
-		postComment(routeId, trackId, comment);
-	}
+    const { postComment } = this.props;
+    postComment(routeId, trackId, comment);
+  }
 
 	render() {
 		const { layerOn } = this.state;
@@ -72,33 +49,13 @@ class Tracks extends Component {
 					<Label align='center' >{noSongsLabel}</Label>
 				</Box>
 			);
-		const addLayer = layerOn ?
+		const addLayer =
 			<Layer closer={true}
 				align='center'
-				onClose={() => this._closeUpload()} >
-				<Box size='xlarge'
-						 full={true}>
-					<Form onSubmit={() => this._submitForm()} >
-							<Header>
-								<Heading margin='medium'>
-									Upload Track
-								</Heading>
-							</Header>
-							<FormField label='Upload Track'>
-								<input type="file" accept="audio/*" onChange={ (e) => this._handleFileChange(e) }/>
-							</FormField>
-							<FormField label='Track Name'>
-								<TextInput defaultValue={name} onDOMChange={ (e) => this._handleNameChange(e) } />
-							</FormField>
-							<FormField label='Upload Track Image'>
-								<input type="file" accept="image/*" onChange={ (e) => this._handleImageChange(e) }/>
-							</FormField>
-							<Footer pad={{vertical: 'medium'}}>
-								<Button label='Submit' primary={true} onClick={ () => this._submitForm() } />
-							</Footer>
-					</Form>
-				</Box>
-			</Layer> : '';
+				onClose={() => this._closeUpload()}
+				hidden={!layerOn}	>
+				<UploadTrack closeUpload={this._closeUpload} routesMatch={renderControls} />
+			</Layer>;
 		const tracksExist = tracks ? tracks[0] : false;
 		let trackList = tracksExist ?
 			tracks.map((track, i) => {

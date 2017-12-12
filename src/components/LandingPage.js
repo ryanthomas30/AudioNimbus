@@ -1,21 +1,28 @@
 import React, { Component } from 'react';
-import HeaderBar from './HeaderBar';
+
 import Article from 'grommet/components/Article';
-import Anchor from 'grommet/components/Anchor';
 import Box from 'grommet/components/Box';
-import Menu from 'grommet/components/Menu';
 import Image from 'grommet/components/Image';
 import Hero from 'grommet/components/Hero';
 import Section from 'grommet/components/Section';
 import Headline from 'grommet/components/Headline';
 import Paragraph from 'grommet/components/Paragraph';
-import Footer from 'grommet/components/Footer'
 import CloudUploadIcon from 'grommet/components/icons/base/CloudUpload';
 import LinkIcon from 'grommet/components/icons/base/Link';
 
-
+import HeaderBar from './HeaderBar';
 
 class LandingPage extends Component {
+	constructor(props) {
+		super(props);
+
+		this.state = { width: 0 };
+	}
+
+	componentDidMount() {
+		this.setState({ width: document.getElementById('app').offsetWidth});
+	}
+
 	render() {
 		return(
 			<Box>
@@ -26,12 +33,12 @@ class LandingPage extends Component {
 						justify='center'
 						margin={{ top: 'small' }}
 						align='center'
-						style={{ width: window.innerWidth }} >
+						style={{ width: this.state.width }} >
 						<Hero background={<Image src={'landingpage-image.jpg'}
 							fit='cover'
 							full={true} />}
 							size='large'
-							style={{ width: window.innerWidth }}>
+							style={{ width: this.state.width }}>
 							<Box align='center' >
 								<Image size='large' src='title-white.png' />
 							</Box>
@@ -52,7 +59,7 @@ class LandingPage extends Component {
 							justify='center'
 							align='center'
 							size={{ height: 'large' }}
-							style={{ width: window.innerWidth }} >
+							style={{ width: this.state.width }} >
 							<Headline margin='large' strong={false} >
 								What We Do
 							</Headline>
@@ -71,28 +78,6 @@ class LandingPage extends Component {
 								</Box>
 							</Box>
 						</Section>
-						<Footer justify='center' fixed={true}  >
-							<Box direction='row'
-								align='center'
-								pad={{"between": "medium"}}>
-										<Paragraph margin='none'>
-											© 2017 AudioNimbus
-										</Paragraph>
-										<Menu direction='row'
-											size='medium'
-											dropAlign={{"right": "right"}}>
-											<Anchor href='https://github.com/ryanthomas30/AudioNimbus/issues/new'>
-											Report a Bug
-										</Anchor>
-										<Anchor href='https://cseub.ryver.com/index.html#forums/1159410/chat'>
-										Contact
-									</Anchor>
-									<Anchor href='https://goo.gl/forms/Jz5FdO1YoRNLKpm93'>
-									Feedback
-								</Anchor>
-								</Menu>
-							</Box>
-						</Footer>
 					</Article>
 				</Box>
 			</Box>

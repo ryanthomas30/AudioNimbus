@@ -1,10 +1,11 @@
 import React, { Component } from 'react';
-import Audio from 'react-audioplayer';
+
 import Box from 'grommet/components/Box';
 import Accordion from 'grommet/components/Accordion';
 import AccordionPanel from 'grommet/components/AccordionPanel';
 import List from 'grommet/components/List';
 import ListItem from 'grommet/components/ListItem';
+import Audio from 'react-audioplayer';
 
 import { API_ROOT } from '../actions/api-config';
 
