@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import HeaderBar from './HeaderBar';
+
 import Article from 'grommet/components/Article';
 import Anchor from 'grommet/components/Anchor';
 import Box from 'grommet/components/Box';
@@ -13,7 +13,7 @@ import Footer from 'grommet/components/Footer'
 import CloudUploadIcon from 'grommet/components/icons/base/CloudUpload';
 import LinkIcon from 'grommet/components/icons/base/Link';
 
-
+import HeaderBar from './HeaderBar';
 
 class LandingPage extends Component {
 	constructor(props) {

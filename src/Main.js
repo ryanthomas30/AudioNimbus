@@ -1,17 +1,16 @@
 import React, {Component} from 'react';
-import App from 'grommet/components/App';
-import Article from 'grommet/components/Article';
-import Profile from './components/Profile';
-import LandingPage from './components/LandingPage';
-import { Route, Switch } from 'react-router-dom';
 import * as actions from './actions';
 import { connect } from 'react-redux';
+import { Route, Switch } from 'react-router-dom';
 
+import App from 'grommet/components/App';
+import Article from 'grommet/components/Article';
 
+import Profile from './components/Profile';
+import LandingPage from './components/LandingPage';
 
 class Main extends Component {
 	render() {
-
 		return (
 			<App id='app' >
 				<Article>
