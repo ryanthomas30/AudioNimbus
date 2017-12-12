@@ -1,5 +1,8 @@
 import React, { Component } from 'react';
-import { withRouter } from 'react-router-dom';
+import { withRouter, Link } from 'react-router-dom';
+import * as actions from '../actions';
+import { connect } from 'react-redux';
+
 import Header from 'grommet/components/Header';
 import Box from 'grommet/components/Box';
 import Button from 'grommet/components/Button';
@@ -8,20 +11,18 @@ import Layer from 'grommet/components/Layer';
 import Label from 'grommet/components/Label';
 import Search from 'grommet/components/Search';
 import Image from 'grommet/components/Image';
-import Signin from './auth/signin';
 import FormField from 'grommet/components/FormField';
 import Form from 'grommet/components/Form';
 import Heading from 'grommet/components/Heading';
 import Footer from 'grommet/components/Footer';
 import TextInput from 'grommet/components/TextInput';
-import Signup from './auth/signup';
 import UserIcon from 'grommet/components/icons/base/User';
 import CloudUploadIcon from 'grommet/components/icons/base/CloudUpload';
 import LogoutIcon from 'grommet/components/icons/base/Logout';
 import LoginIcon from 'grommet/components/icons/base/Login';
-import * as actions from '../actions';
-import { connect } from 'react-redux';
 
+import Signup from './auth/signup';
+import Signin from './auth/signin';
 
 class HeaderBar extends Component {
 	constructor(props) {
@@ -188,25 +189,22 @@ class HeaderBar extends Component {
 				{signInLayer}
 				{signUpLayer}
 				{signOutLayer}
-				<Button icon={<Image src={logo} role='presentation' />} href='/' />
-				<Box flex={true}
-					justify='end'
+				<Box justify='start'>
+					<Button icon={<Image src={logo} role='presentation' />} href='/' />
+				</Box>
+				<Box justify='end'
 					direction='row'
 					responsive={false}
-					pad={{ between: 'small' }} >
-					<Box margin='medium' size={{ width: 'medium' }} >
-						<Search inline={true}
-							fill={true}
-							size='medium'
-							placeHolder='search'
-							onDOMChange={(e) => this._onSearch(e)}
-							suggestions={userList}
-							onSelect={(selectObj ,selected) => this._onSuggestionSelect(selectObj, selected)}
-							/>
-					</Box>
-					<Box direction='row' pad={{between: 'small' }} margin='medium' align='center' >
-						{buttons}
-					</Box>
+					pad={{ between: 'small' }}
+					style={{ width: '100%' }} >
+					<Search inline={true}
+						fill={true}
+						placeHolder='search'
+						onDOMChange={(e) => this._onSearch(e)}
+						suggestions={userList}
+						onSelect={(selectObj ,selected) => this._onSuggestionSelect(selectObj, selected)}
+						style={{ width: '100%' }} />
+					{buttons}
 				</Box>
 			</Header>
 		);
@@ -221,4 +219,4 @@ function mapStateToProps(state) {
 	};
 }
 
-export default connect(mapStateToProps, actions)(withRouter(HeaderBar));
+export default withRouter(connect(mapStateToProps, actions)(HeaderBar));

@@ -16,6 +16,16 @@ import LinkIcon from 'grommet/components/icons/base/Link';
 
 
 class LandingPage extends Component {
+	constructor(props) {
+		super(props);
+
+		this.state = { width: 0 };
+	}
+
+	componentDidMount() {
+		this.setState({ width: document.getElementById('app').offsetWidth});
+	}
+
 	render() {
 		return(
 			<Box>
@@ -26,12 +36,12 @@ class LandingPage extends Component {
 						justify='center'
 						margin={{ top: 'small' }}
 						align='center'
-						style={{ width: window.innerWidth }} >
+						style={{ width: this.state.width }} >
 						<Hero background={<Image src={'landingpage-image.jpg'}
 							fit='cover'
 							full={true} />}
 							size='large'
-							style={{ width: window.innerWidth }}>
+							style={{ width: this.state.width }}>
 							<Box align='center' >
 								<Image size='large' src='title-white.png' />
 							</Box>
@@ -52,7 +62,7 @@ class LandingPage extends Component {
 							justify='center'
 							align='center'
 							size={{ height: 'large' }}
-							style={{ width: window.innerWidth }} >
+							style={{ width: this.state.width }} >
 							<Headline margin='large' strong={false} >
 								What We Do
 							</Headline>
